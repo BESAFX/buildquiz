@@ -104,7 +104,13 @@
                     </ul>
 
                     <button id="toggle-quiz-menu-lower-right"
-                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white"
+                            ng-show="contains(me.team.authorities, [
+                            'ROLE_CATEGORY_CREATE',
+                            'ROLE_QUIZ_CREATE',
+                            'ROLE_QUIZ_UPDATE',
+                            'ROLE_QUIZ_DELETE'
+                            ])">
                         <i class="material-icons">lightbulb_outline</i>
                         <span ng-if="lang==='AR'">الاختبارات</span>
                         <span ng-if="lang==='EN'">Quizzes</span>
@@ -144,8 +150,6 @@
                                <span ng-if="lang==='EN'">New Quiz...</span>
                             </span>
                         </li>
-
-                        <li class="mdl-menu__item--full-bleed-divider"></li>
 
                     </ul>
 
@@ -308,8 +312,7 @@
                     <span class="mdl-list__item-primary-content">
                         <span class="material-icons mdl-list__item-avatar"
                               ng-style="{'background-image': 'url(' + me.contact.photo + ')'}"></span>
-                        <span>{{me.contact.name}}</span>
-                        <span class="mdl-list__item-sub-title">{{me.contact.qualification}}</span>
+                        <span style="line-height: 40px">{{me.contact.name}}</span>
                     </span>
                 </li>
                 <li class="mdl-menu__item mdl-list__item" ng-click="openStateHelp();">

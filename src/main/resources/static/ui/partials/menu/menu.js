@@ -92,7 +92,7 @@ function menuCtrl($scope,
     $scope.openStateQuiz = function () {
         $scope.toggleState = 'quiz';
         setTimeout(function () {
-            $scope.fetchCategoryData();
+            $scope.fetchQuizData();
         }, 500);
     };
     $scope.openStateTeam = function () {

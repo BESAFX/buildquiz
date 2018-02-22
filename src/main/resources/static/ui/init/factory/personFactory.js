@@ -16,6 +16,11 @@ app.factory("PersonService",
                     return response.data;
                 });
             },
+            update: function (person) {
+                return $http.put("/api/person/update", person).then(function (response) {
+                    return response.data;
+                });
+            },
             findActivePerson: function () {
                 return $http.get("/api/person/findActivePerson").then(function (response) {
                     return response.data;

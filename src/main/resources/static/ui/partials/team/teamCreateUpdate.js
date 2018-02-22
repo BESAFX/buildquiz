@@ -213,6 +213,14 @@ app.controller('teamCreateUpdateCtrl', [
             selected: false,
             category: $rootScope.lang === 'AR' ? 'الإدارة' : 'Administrator'
         });
+        //////////////////////////Profile////////////////////////////////
+        $scope.roles.push({
+            nameArabic: 'تعديل الملف الشخصي',
+            nameEnglish: 'Edit Profile',
+            value: 'ROLE_PROFILE_UPDATE',
+            selected: false,
+            category: $rootScope.lang === 'AR' ? 'الإدارة' : 'Administrator'
+        });
         //////////////////////////Report////////////////////////////////
         $scope.roles.push({
             nameArabic: 'طباعة التقارير',

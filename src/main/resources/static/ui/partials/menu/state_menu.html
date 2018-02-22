@@ -85,6 +85,32 @@
             </div>
         </div>
 
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateProfile()">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/profile.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">الملف الشخصي</span>
+                    <span ng-if="lang==='EN'">PROFILE</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateAbout()">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/about.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">عن البرنامج</span>
+                    <span ng-if="lang==='EN'">About</span>
+                </a>
+            </div>
+        </div>
+
 
     </div>
 
