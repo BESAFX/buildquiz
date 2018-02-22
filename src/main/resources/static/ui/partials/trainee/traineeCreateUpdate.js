@@ -1,5 +1,5 @@
-app.controller('traineeCreateUpdateCtrl', ['TraineeService', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance', 'title', 'action', 'trainee',
-    function (TraineeService, $scope, $rootScope, $timeout, $log, $uibModalInstance, title, action, trainee) {
+app.controller('traineeCreateUpdateCtrl', ['TraineeService', 'TeamService', '$scope', '$rootScope', '$timeout', '$log', '$uibModalInstance', 'title', 'action', 'trainee',
+    function (TraineeService, TeamService, $scope, $rootScope, $timeout, $log, $uibModalInstance, title, action, trainee) {
 
         $scope.trainee = trainee;
 
@@ -27,6 +27,9 @@ app.controller('traineeCreateUpdateCtrl', ['TraineeService', '$scope', '$rootSco
         };
 
         $timeout(function () {
+            TeamService.findAllCombo().then(function (data) {
+                $scope.teams = data;
+            });
             window.componentHandler.upgradeAllRegistered();
         }, 500);
 

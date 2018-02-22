@@ -136,12 +136,12 @@
                         ng-init="trainee.isSelected=false">
                         <td st-select-row-multi="trainee">{{$index+1}}</td>
                         <td st-select-row-multi="trainee" ng-class="{'info' : trainee.isSelected===false}">{{trainee.code}}</td>
-                        <td st-select-row-multi="trainee">{{trainee.contact.name}}</td>
+                        <td st-select-row-multi="trainee">{{trainee.person.contact.name}}</td>
                         <td st-select-row-multi="trainee">
                             <span ng-if="lang==='AR'">{{trainee.enabledInArabic}}</span>
                             <span ng-if="lang==='EN'">{{trainee.enabledInEnglish}}</span>
                         </td>
-                        <td st-select-row-multi="trainee">{{trainee.contact.email}}</td>
+                        <td st-select-row-multi="trainee">{{trainee.person.contact.email}}</td>
                     </tr>
                     <tr class="blank_row" style="height: 10px !important; background-color: #FFFFFF;"
                         ng-show="!collection1 || collection1.length ==0">
@@ -214,7 +214,7 @@
                                 </div>
                                 <div class="profile-data">
                                     <div class="profile-data-name">
-                                        {{trainee.contact.name}}
+                                        {{trainee.person.contact.name}}
                                     </div>
                                 </div>
                                 <div class="profile-controls">
