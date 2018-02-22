@@ -79,16 +79,25 @@ function menuCtrl($scope,
     };
     $scope.openStateTrainer = function () {
         $scope.toggleState = 'trainer';
+        setTimeout(function () {
+            $scope.findAllTrainers();
+        }, 500);
     };
     $scope.openStateTrainee = function () {
         $scope.toggleState = 'trainee';
+        setTimeout(function () {
+            $scope.findAllTrainees();
+        }, 500);
     };
     $scope.openStateQuiz = function () {
         $scope.toggleState = 'quiz';
+        setTimeout(function () {
+            $scope.fetchCategoryData();
+        }, 500);
     };
     $scope.openStateTeam = function () {
         $scope.toggleState = 'team';
-        $timeout(function () {
+        setTimeout(function () {
             $scope.fetchTeamTableData();
         }, 500);
     };

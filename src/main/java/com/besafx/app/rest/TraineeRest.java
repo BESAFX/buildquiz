@@ -42,7 +42,7 @@ public class TraineeRest {
     public static final String FILTER_DETAILS = "" +
             "**," +
             "traineeQuizzes[**,quiz[id,code,content,category[id,code,name]],-trainee]," +
-            "person[**]";
+            "person[id,contact[id,name,email]]";
     public static final String FILTER_COMBO = "" +
             "**," +
             "-traineeQuizzes," +

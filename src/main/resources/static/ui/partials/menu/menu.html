@@ -83,7 +83,7 @@
 
                         <li class="mdl-menu__item mdl-list__item"
                             ng-show="contains(me.team.authorities, ['ROLE_TRAINEE_CREATE', 'ROLE_TRAINEE_UPDATE', 'ROLE_TRAINEE_DELETE'])"
-                            ng-click="openStateTrainer()">
+                            ng-click="openStateTrainee()">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">security</i>
                                <span ng-if="lang==='AR'">سجل المتدربين</span>
@@ -93,7 +93,7 @@
 
                         <li class="mdl-menu__item mdl-list__item"
                             ng-if="contains(me.team.authorities, ['ROLE_TRAINEE_CREATE'])"
-                            ng-click="newTrainer()">
+                            ng-click="newTrainee()">
                             <span class="mdl-list__item-primary-content">
                                 <i class="material-icons mdl-list__item-icon">note_add</i>
                                <span ng-if="lang==='AR'">متدرب جديد...</span>
