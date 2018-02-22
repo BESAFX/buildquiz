@@ -1,5 +1,6 @@
 package com.besafx.app.rest;
 
+import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.entity.Quiz;
 import com.besafx.app.entity.Person;
 import com.besafx.app.service.QuizService;
@@ -16,6 +17,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +29,17 @@ import java.util.List;
 @RequestMapping(value = "/api/quiz/")
 public class QuizRest {
 
-    public static final String FILTER_TABLE = "**,category[id,code,name],lastPerson[id,nickname,name],summaries[**,person[id,nickname,name],-quiz,lastPerson[id,nickname,name]]";
-    public static final String FILTER_QUIZ_COMBO = "id,code,content";
+    public static final String FILTER_TABLE = "" +
+            "**," +
+            "category[id,code,name]," +
+            "questions[id]";
+    public static final String FILTER_QUIZ_COMBO = "" +
+            "id," +
+            "code," +
+            "content";
 
     @Autowired
     private QuizService quizService;
-
-    @Autowired
-    private PersonService personService;
 
     @Autowired
     private NotificationService notificationService;
@@ -50,9 +55,7 @@ public class QuizRest {
         }else{
             quiz.setCode(topQuiz.getCode() + 1);
         }
-        Person caller = personService.findByEmail(principal.getName());
-        quiz.setLastPerson(caller);
-        quiz.setLastUpdate(new DateTime().toDate());
+        Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         quiz = quizService.save(quiz);
         String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
         notificationService.notifyOne(Notification
@@ -70,9 +73,7 @@ public class QuizRest {
     public String update(@RequestBody Quiz quiz, Principal principal) {
         Quiz object = quizService.findOne(quiz.getId());
         if (object != null) {
-            Person caller = personService.findByEmail(principal.getName());
-            quiz.setLastPerson(caller);
-            quiz.setLastUpdate(new DateTime().toDate());
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
             quiz = quizService.save(quiz);
             String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
             notificationService.notifyOne(Notification
@@ -94,7 +95,7 @@ public class QuizRest {
         Quiz quiz = quizService.findOne(id);
         if (quiz != null) {
             quizService.delete(id);
-            Person caller = personService.findByEmail(principal.getName());
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
             String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
             notificationService.notifyOne(Notification
                     .builder()

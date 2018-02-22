@@ -11,6 +11,11 @@ app.factory("QuestionService",
                     return response.data;
                 });
             },
+            findByQuiz: function (quiz) {
+                return $http.get("/api/question/findByQuiz/" + quiz.id).then(function (response) {
+                    return response.data;
+                });
+            },
             create: function (question) {
                 return $http.post("/api/question/create", question).then(function (response) {
                     return response.data;

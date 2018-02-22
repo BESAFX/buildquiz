@@ -1,0 +1,141 @@
+<div dir="rtl">
+
+    <div class="modal-header mdl-color--primary mdl-navigation__link-active">
+        <a class="pull-left" href="" ng-click="cancel()">
+            <span class="fa fa-close fa-2x mdl-color-text--white"></span>
+        </a>
+        <h3 class="pull-right panel-title mdl-list__item mdl-color-text--white">
+            <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon mdl-color-text--white">info</i>
+                <strong>تفاصيل الاختبار /  </strong>&nbsp;
+                <span>{{quiz.content}}</span>
+            </span>
+        </h3>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+
+        <div class="form-group row">
+            <button uib-tooltip="{{lang==='AR' ? 'تحديث' : 'Refresh'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="refreshQuiz()"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">cached</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'سؤال جديد' : 'New Question'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="newQuestion()"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">question_answer</i>
+            </button>
+        </div>
+
+        <div class="form-group row">
+
+            <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+                <div class="mdl-tabs__tab-bar">
+
+                    <a href="#panel-1-quiz" class="mdl-tabs__tab col-xs-6 col-sm-6 col-md-6 col-lg-6 is-active">
+                        <span>التفاصيل</span>
+                    </a>
+
+                    <a href="#panel-2-quiz" class="mdl-tabs__tab col-xs-6 col-sm-6 col-md-6 col-lg-6"
+                       ng-click="refreshQuestions()" >
+                        <span>الاسئلة</span>
+                        <span ng-if="quiz.questions.length > 0" class="mdl-badge" data-badge="{{quiz.questions.length}}"></span>
+                    </a>
+
+                </div>
+
+                <div class="mdl-tabs__panel is-active" id="panel-1-quiz">
+                    <div class="form-group row">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>رقم الاختبار</td>
+                                    <td>{{quiz.code}}</td>
+                                </tr>
+                                <tr>
+                                    <td>الموضوع</td>
+                                    <td>{{quiz.content}}</td>
+                                </tr>
+                                <tr>
+                                    <td>ملاحظات</td>
+                                    <td>{{quiz.note}}</td>
+                                </tr>
+                                <tr>
+                                    <td>المادة</td>
+                                    <td>{{quiz.category.name}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mdl-tabs__panel" id="panel-2-quiz">
+                    <div class="form-group row">
+                        <div class="table-responsive">
+                            <table st-table="collectionQuestions"
+                                   st-safe-src="quiz.questions"
+                                   class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th st-sort="code" class="fit">رقم السؤال</th>
+                                    <th st-sort="content">السؤال</th>
+                                    <th st-sort="description">ملاحظات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="question in collectionQuestions"
+                                    ng-dblclick="ModalProvider.openQuestionDetailsModel(question)">
+                                    <td>{{question.code}}</td>
+                                    <td>
+                                        <a href=""
+                                           ng-click="ModalProvider.openQuestionDetailsModel(question)">
+                                            {{question.content}}
+                                        </a>
+                                    </td>
+                                    <td>{{question.description}}</td>
+                                </tr>
+                                <tr class="blank_row"
+                                    style="height: 10px !important; background-color: #FFFFFF;"
+                                    ng-show="!collectionQuestions || collectionQuestions.length ==0">
+                                    <td colspan="3">
+                                        <a href="" ng-click="newQuestion()">
+                                            <span ng-if="lang==='AR'">سؤال جديد...</span>
+                                            <span ng-if="lang==='EN'">New Question...</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div class="row">
+            <button uib-tooltip="خروج"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="cancel()"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+                <i class="material-icons">power_settings_new</i>
+            </button>
+        </div>
+
+    </div>
+
+</div>

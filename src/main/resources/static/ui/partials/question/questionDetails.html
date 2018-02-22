@@ -1,0 +1,111 @@
+<div dir="rtl">
+
+    <div class="modal-header mdl-color--primary mdl-navigation__link-active">
+        <a class="pull-left" href="" ng-click="cancel()">
+            <span class="fa fa-close fa-2x mdl-color-text--white"></span>
+        </a>
+        <h3 class="pull-right panel-title mdl-list__item mdl-color-text--white">
+            <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon mdl-color-text--white">info</i>
+                <strong>تفاصيل السؤال</strong>&nbsp;
+            </span>
+        </h3>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+
+        <div class="form-group row">
+            <h4>{{question.content}}</h4>
+        </div>
+
+        <div class="form-group row">
+
+            <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+
+                <div class="mdl-tabs__tab-bar">
+
+                    <a href="#panel-1-question" class="mdl-tabs__tab col-xs-12 col-sm-12 col-md-12 col-lg-12 is-active"
+                       ng-click="refreshAnswers()" >
+                        <span>الاختيارات</span>
+                        <span ng-if="question.answers.length > 0" class="mdl-badge" data-badge="{{question.answers.length}}"></span>
+                    </a>
+
+                </div>
+
+                <div class="mdl-tabs__panel is-active" id="panel-1-question">
+
+                    <div class="form-group row">
+                        <button uib-tooltip="{{lang==='AR' ? 'تحديث' : 'Refresh'}}"
+                                tooltip-append-to-body="true"
+                                type="button"
+                                ng-click="refreshQuestion()"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <i class="material-icons">cached</i>
+                        </button>
+                        <button uib-tooltip="{{lang==='AR' ? 'اختيار جديد' : 'New Option'}}"
+                                tooltip-append-to-body="true"
+                                type="button"
+                                ng-click="newAnswer()"
+                                class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <i class="material-icons">check_box_outline_blank</i>
+                        </button>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="table-responsive">
+                            <table st-table="collectionAnswers"
+                                   st-safe-src="question.answers" class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th st-sort="code" class="fit">رقم الاجابة</th>
+                                    <th st-sort="content">الاختيار</th>
+                                    <th st-sort="description">الاجابة الصحيحة</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="answer in collectionAnswers"
+                                    context-menu="rowMenuAnswer">
+                                    <td class="fit">{{answer.code}}</td>
+                                    <td>{{answer.content}}</td>
+                                    <td class="fit">
+                                        <i ng-if="answer.isAnswer" class="material-icons mdl-color-text--primary">check_box</i>
+                                    </td>
+                                </tr>
+                                <tr class="blank_row"
+                                    style="height: 10px !important; background-color: #FFFFFF;"
+                                    ng-show="!collectionAnswers || collectionAnswers.length ==0">
+                                    <td colspan="3">
+                                        <a href="" ng-click="newAnswer()">
+                                            <span ng-if="lang==='AR'">اختيار جديد...</span>
+                                            <span ng-if="lang==='EN'">New Option...</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div class="row">
+            <button uib-tooltip="خروج"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="cancel()"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+                <i class="material-icons">power_settings_new</i>
+            </button>
+        </div>
+
+    </div>
+
+</div>

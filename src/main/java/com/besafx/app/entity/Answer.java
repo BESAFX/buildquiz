@@ -31,6 +31,8 @@ public class Answer implements Serializable {
     @GeneratedValue(generator = "answerSequenceGenerator")
     private Long id;
 
+    private Integer code;
+
     private Boolean isAnswer;
 
     @Lob
@@ -40,14 +42,6 @@ public class Answer implements Serializable {
     @JoinColumn(name = "question")
     @ManyToOne
     private Question question;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_update")
-    private Date lastUpdate;
-
-    @JoinColumn(name = "last_person")
-    @ManyToOne
-    private Person lastPerson;
     
 
     @JsonCreator

@@ -1,4 +1,5 @@
 package com.besafx.app.util;
+
 import org.joda.time.*;
 
 import java.text.SimpleDateFormat;
@@ -143,7 +144,7 @@ public class DateConverter {
         return cal.getTime();
     }
 
-    public static List<Interval> getDaysOfThisWeek(){
+    public static List<Interval> getDaysOfThisWeek() {
         List<Interval> dates = new ArrayList<>();
         DateTime startDate = new DateTime(DateConverter.getCurrentWeekStart());
         DateTime endDate = new DateTime(DateConverter.getCurrentWeekEnd());
@@ -156,7 +157,7 @@ public class DateConverter {
         return dates;
     }
 
-    public static List<Interval> getMonthsOfThisYear(){
+    public static List<Interval> getMonthsOfThisYear() {
         List<Interval> dates = new ArrayList<>();
         DateTime startDate = new DateTime().withMonthOfYear(1).withDayOfMonth(1);
         DateTime endDate = startDate.plusYears(1).minusMonths(1);
@@ -167,5 +168,16 @@ public class DateConverter {
             dates.add(new Interval(start, end));
         }
         return dates;
+    }
+
+    public static String getNowFileName() {
+        StringBuilder builder = new StringBuilder();
+        DateTime dateTime = new DateTime();
+        builder.append(dateTime.getDayOfMonth());
+        builder.append("_");
+        builder.append(dateTime.getMonthOfYear());
+        builder.append("_");
+        builder.append(dateTime.getYear());
+        return builder.toString();
     }
 }

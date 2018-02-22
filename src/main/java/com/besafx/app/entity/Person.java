@@ -30,29 +30,11 @@ public class Person implements Serializable {
     @GeneratedValue(generator = "personSequenceGenerator")
     private Long id;
 
-    private String name;
-
-    private String nickname;
-
-    private String address;
-
-    private String mobile;
-
-    private String nationality;
-
-    private String identityNumber;
-
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String options;
 
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String photo;
-
-    private String qualification;
-
-    private String email;
+    private String userName;
 
     private String password;
 
@@ -72,9 +54,11 @@ public class Person implements Serializable {
 
     private Date lastLoginDate;
 
-    private String lastLoginLocation;
-
     private String ipAddress;
+
+    @ManyToOne
+    @JoinColumn(name = "contact")
+    private Contact contact;
 
     @ManyToOne
     @JoinColumn(name = "team")

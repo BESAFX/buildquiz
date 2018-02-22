@@ -1,7 +1,10 @@
 package com.besafx.app.init;
 
+import com.besafx.app.Main;
+import com.besafx.app.entity.Contact;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Team;
+import com.besafx.app.service.ContactService;
 import com.besafx.app.service.PersonService;
 import com.besafx.app.service.TeamService;
 import com.besafx.app.util.JSONConverter;
@@ -16,10 +19,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Initializer implements CommandLineRunner {
 
-    private final static Logger log = LoggerFactory.getLogger(Initializer.class);
+    private final Logger log = LoggerFactory.getLogger(Main.class);
 
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private ContactService contactService;
 
     @Autowired
     private PersonService personService;
@@ -40,41 +46,33 @@ public class Initializer implements CommandLineRunner {
         team.setCode(1);
         team.setName("الدعم الفني");
         team.setAuthorities(String.join(",",
-                "ROLE_CATEGORY_CREATE",
-                "ROLE_CATEGORY_UPDATE",
-                "ROLE_CATEGORY_DELETE",
-                "ROLE_QUIZ_CREATE",
-                "ROLE_QUIZ_UPDATE",
-                "ROLE_QUIZ_DELETE",
-                "ROLE_QUESTION_CREATE",
-                "ROLE_QUESTION_UPDATE",
-                "ROLE_QUESTION_DELETE",
-                "ROLE_ANSWER_CREATE",
-                "ROLE_ANSWER_UPDATE",
-                "ROLE_ANSWER_DELETE",
-                "ROLE_RESULT_CREATE",
-                "ROLE_RESULT_UPDATE",
-                "ROLE_RESULT_DELETE",
-                "ROLE_SUMMERY_CREATE",
-                "ROLE_SUMMERY_UPDATE",
-                "ROLE_SUMMERY_DELETE",
-                "ROLE_PERSON_CREATE",
-                "ROLE_PERSON_UPDATE",
-                "ROLE_PERSON_DELETE",
+                "ROLE_PROFILE_UPDATE",
+                "ROLE_TRAINEE_CREATE",
+                "ROLE_TRAINEE_UPDATE",
+                "ROLE_TRAINEE_DELETE",
+                "ROLE_TRAINEE_ENABLE",
+                "ROLE_TRAINEE_DISABLE",
+                "ROLE_TRAINER_CREATE",
+                "ROLE_TRAINER_UPDATE",
+                "ROLE_TRAINER_DELETE",
+                "ROLE_TRAINER_ENABLE",
+                "ROLE_TRAINER_DISABLE",
                 "ROLE_TEAM_CREATE",
                 "ROLE_TEAM_UPDATE",
-                "ROLE_TEAM_DELETE",
-                "ROLE_PROFILE_UPDATE"
+                "ROLE_TEAM_DELETE"
         ));
         teamService.save(team);
         //
         log.info("إنشاء المستخدم الخاص بمدير النظام");
         Person person = new Person();
-        person.setNickname("Eng.");
-        person.setName("BASSAM ALMAHDY");
-        person.setPhoto("");
-        person.setQualification("Web Developer");
-        person.setEmail("islamhaker@gmail.com");
+        Contact contact = new Contact();
+        contact.setNickname("Eng.");
+        contact.setName("BASSAM ALMAHDY");
+        contact.setPhoto("");
+        contact.setQualification("Web Developer");
+        contact.setEmail("islamhaker@gmail.com");
+        person.setContact(contactService.save(contact));
+        person.setUserName("islamhaker@gmail.com");
         person.setPassword(passwordEncoder.encode("besa2009"));
         person.setHiddenPassword("besa2009");
         person.setEnabled(true);
@@ -83,7 +81,6 @@ public class Initializer implements CommandLineRunner {
         person.setTechnicalSupport(true);
         person.setTeam(team);
         person.setOptions(JSONConverter.toString(Options.builder().lang("AR").dateType("H")));
-        log.info(JSONConverter.toString(Options.builder().lang("AR").dateType("H")));
         personService.save(person);
     }
 }

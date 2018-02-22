@@ -1,4 +1,5 @@
 package com.besafx.app.ws;
+
 import com.besafx.app.entity.Person;
 import com.besafx.app.service.PersonService;
 import com.google.common.collect.Lists;
@@ -39,8 +40,8 @@ public class NotificationService {
         Lists.newArrayList(personService.findAll())
                 .stream()
                 .forEach(person -> {
-                    notification.setReceiver(person.getEmail());
-                    messagingTemplate.convertAndSendToUser(person.getEmail(), "/queue/notify", notification);
+                    notification.setReceiver(person.getUserName());
+                    messagingTemplate.convertAndSendToUser(person.getUserName(), "/queue/notify", notification);
                     logger.info("Send notification to " + notification.getReceiver() + ": " + notification);
                 });
     }
@@ -48,14 +49,14 @@ public class NotificationService {
     //Send to multiple destination except me
     public void notifyAllExceptMe(Notification notification) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Person me = personService.findByEmail(auth == null ? "" : auth.getName());
+        Person me = personService.findByUserName(auth == null ? "" : auth.getName());
         Optional.ofNullable(auth).ifPresent(value -> notification.setSender(value.getName()));
         Lists.newArrayList(personService.findAll())
                 .stream()
                 .filter(person -> !person.equals(me))
                 .forEach(person -> {
-                    notification.setReceiver(person.getEmail());
-                    messagingTemplate.convertAndSendToUser(person.getEmail(), "/queue/notify", notification);
+                    notification.setReceiver(person.getUserName());
+                    messagingTemplate.convertAndSendToUser(person.getUserName(), "/queue/notify", notification);
                     logger.info("Send notification to " + notification.getReceiver() + ": " + notification);
                 });
     }

@@ -2,6 +2,169 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
 
     /**************************************************************
      *                                                            *
+     * Trainee Model                                              *
+     *                                                            *
+     *************************************************************/
+    this.openTraineeCreateModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainee/traineeCreateUpdate.html',
+            controller: 'traineeCreateUpdateCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                title: function () {
+                    return $rootScope.lang === 'AR' ? 'انشاء حساب متدرب جديد' : 'New Trainee';
+                },
+                action: function () {
+                    return 'create';
+                },
+                trainee: function () {
+                    return {};
+                }
+            }
+        });
+    };
+
+    this.openTraineeUpdateModel = function (trainee) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainee/traineeCreateUpdate.html',
+            controller: 'traineeCreateUpdateCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                title: function () {
+                    return $rootScope.lang === 'AR' ? 'تعديل حساب متدرب' : 'Update Trainee Information';
+                },
+                action: function () {
+                    return 'update';
+                },
+                trainee: function () {
+                    return trainee;
+                }
+            }
+        });
+    };
+
+    this.openTraineeDetailsModel = function (trainee) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainee/traineeDetails.html',
+            controller: 'traineeDetailsCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                trainee: function () {
+                    return trainee;
+                }
+            }
+        });
+    };
+
+    this.openTraineeQuizAddModel = function (trainee) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainee/traineeQuizAdd.html',
+            controller: 'traineeQuizAddCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                title: function () {
+                    return $rootScope.lang === 'AR' ? 'اضافة نموذج اختبار' : 'Add Quiz';
+                },
+                trainee: function () {
+                    return trainee;
+                }
+            }
+        });
+    };
+
+    /**************************************************************
+     *                                                            *
+     * Trainer Model                                              *
+     *                                                            *
+     *************************************************************/
+    this.openTrainerCreateModel = function () {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainer/trainerCreateUpdate.html',
+            controller: 'trainerCreateUpdateCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                title: function () {
+                    return $rootScope.lang === 'AR' ? 'انشاء حساب مدرب جديد' : 'New Trainer';
+                },
+                action: function () {
+                    return 'create';
+                },
+                trainer: function () {
+                    return {};
+                }
+            }
+        });
+    };
+
+    this.openTrainerUpdateModel = function (trainer) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainer/trainerCreateUpdate.html',
+            controller: 'trainerCreateUpdateCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                title: function () {
+                    return $rootScope.lang === 'AR' ? 'تعديل حساب مدرب' : 'Update Trainer Information';
+                },
+                action: function () {
+                    return 'update';
+                },
+                trainer: function () {
+                    return trainer;
+                }
+            }
+        });
+    };
+
+    this.openTrainerDetailsModel = function (trainer) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/trainer/trainerDetails.html',
+            controller: 'trainerDetailsCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                trainer: function () {
+                    return trainer;
+                }
+            }
+        });
+    };
+
+    /**************************************************************
+     *                                                            *
      * Category Model                                             *
      *                                                            *
      *************************************************************/
@@ -10,7 +173,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/category/categoryCreateUpdate.html',
+            templateUrl: '/ui/partials/category/categoryCreateUpdate.html',
             controller: 'categoryCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -33,7 +196,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/category/categoryCreateUpdate.html',
+            templateUrl: '/ui/partials/category/categoryCreateUpdate.html',
             controller: 'categoryCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -56,12 +219,12 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
      * Quiz Model                                                 *
      *                                                            *
      *************************************************************/
-    this.openQuizCreateModel = function () {
+    this.openQuizCreateModel = function (category) {
         return $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/quiz/quizCreateUpdate.html',
+            templateUrl: '/ui/partials/quiz/quizCreateUpdate.html',
             controller: 'quizCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -73,7 +236,9 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
                     return 'create';
                 },
                 quiz: function () {
-                    return {};
+                    var quiz = {};
+                    quiz.category = category;
+                    return quiz;
                 }
             }
         });
@@ -84,7 +249,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/quiz/quizCreateUpdate.html',
+            templateUrl: '/ui/partials/quiz/quizCreateUpdate.html',
             controller: 'quizCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -102,17 +267,35 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
         });
     };
 
+    this.openQuizDetailsModel = function (quiz) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/quiz/quizDetails.html',
+            controller: 'quizDetailsCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                quiz: function () {
+                    return quiz;
+                }
+            }
+        });
+    };
+
     /**************************************************************
      *                                                            *
      * Question Model                                             *
      *                                                            *
      *************************************************************/
-    this.openQuestionCreateModel = function () {
+    this.openQuestionCreateModel = function (quiz) {
         return $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/question/questionCreateUpdate.html',
+            templateUrl: '/ui/partials/question/questionCreateUpdate.html',
             controller: 'questionCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -124,7 +307,9 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
                     return 'create';
                 },
                 question: function () {
-                    return {};
+                    var question = {};
+                    question.quiz = quiz;
+                    return question;
                 }
             }
         });
@@ -135,7 +320,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/question/questionCreateUpdate.html',
+            templateUrl: '/ui/partials/question/questionCreateUpdate.html',
             controller: 'questionCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -153,6 +338,24 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
         });
     };
 
+    this.openQuestionDetailsModel = function (question) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/question/questionDetails.html',
+            controller: 'questionDetailsCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+            resolve: {
+                question: function () {
+                    return question;
+                }
+            }
+        });
+    };
+
     /**************************************************************
      *                                                            *
      * Answer Model                                               *
@@ -163,7 +366,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/question/answerCreateUpdate.html',
+            templateUrl: '/ui/partials/answer/answerCreateUpdate.html',
             controller: 'answerCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -189,7 +392,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/question/answerCreateUpdate.html',
+            templateUrl: '/ui/partials/answer/answerCreateUpdate.html',
             controller: 'answerCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -209,59 +412,6 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
 
     /**************************************************************
      *                                                            *
-     * Summary Model                                              *
-     *                                                            *
-     *************************************************************/
-    this.openSummaryCreateModel = function (quiz) {
-        return $uibModal.open({
-            animation: true,
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/quiz/summaryCreateUpdate.html',
-            controller: 'summaryCreateUpdateCtrl',
-            backdrop: 'static',
-            keyboard: false,
-            resolve: {
-                title: function () {
-                    return $rootScope.lang === 'AR' ? 'انشاء اختبار متدرب جديد' : 'New Quiz For Trainer';
-                },
-                action: function () {
-                    return 'create';
-                },
-                summary: function () {
-                    var summary = {};
-                    summary.quiz = quiz;
-                    return summary;
-                }
-            }
-        });
-    };
-
-    this.openSummaryUpdateModel = function (summary) {
-        return $uibModal.open({
-            animation: true,
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/quiz/summaryCreateUpdate.html',
-            controller: 'summaryCreateUpdateCtrl',
-            backdrop: 'static',
-            keyboard: false,
-            resolve: {
-                title: function () {
-                    return $rootScope.lang === 'AR' ? 'تعديل بيانات الاختبار للمتدرب' : 'Update Quiz For Trainer';
-                },
-                action: function () {
-                    return 'update';
-                },
-                summary: function () {
-                    return summary;
-                }
-            }
-        });
-    };
-
-    /**************************************************************
-     *                                                            *
      * Team Model                                                 *
      *                                                            *
      *************************************************************/
@@ -270,7 +420,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/team/teamCreateUpdate.html',
+            templateUrl: '/ui/partials/team/teamCreateUpdate.html',
             controller: 'teamCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -294,7 +444,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/team/teamCreateUpdate.html',
+            templateUrl: '/ui/partials/team/teamCreateUpdate.html',
             controller: 'teamCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
@@ -315,52 +465,27 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
 
     /**************************************************************
      *                                                            *
-     * Person Model                                               *
+     * Confirm Model                                              *
      *                                                            *
      *************************************************************/
-    this.openPersonCreateModel = function () {
+    this.openConfirmModel = function (title, icon, message) {
         return $uibModal.open({
             animation: true,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/person/personCreateUpdate.html',
-            controller: 'personCreateUpdateCtrl',
+            templateUrl: '/ui/partials/modal/confirmModal.html',
+            controller: 'confirmModalCtrl',
             backdrop: 'static',
             keyboard: false,
-            size: 'lg',
             resolve: {
                 title: function () {
-                    return $rootScope.lang === 'AR' ? 'انشاء حساب جديد' : 'New User';
+                    return title;
                 },
-                action: function () {
-                    return 'create';
+                icon: function () {
+                    return icon;
                 },
-                person: function () {
-                    return {};
-                }
-            }
-        });
-    };
-
-    this.openPersonUpdateModel = function (person) {
-        return $uibModal.open({
-            animation: true,
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: '/ui/partials/admin/person/personCreateUpdate.html',
-            controller: 'personCreateUpdateCtrl',
-            backdrop: 'static',
-            keyboard: false,
-            size: 'lg',
-            resolve: {
-                title: function () {
-                    return $rootScope.lang === 'AR' ? 'تعديل بيانات الحساب' : 'Update User';
-                },
-                action: function () {
-                    return 'update';
-                },
-                person: function () {
-                    return person;
+                message: function () {
+                    return message;
                 }
             }
         });

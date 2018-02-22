@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -32,6 +31,8 @@ public class Question implements Serializable {
     @GeneratedValue(generator = "questionSequenceGenerator")
     private Long id;
 
+    private Integer code;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String content;
@@ -44,15 +45,8 @@ public class Question implements Serializable {
     @ManyToOne
     private Quiz quiz;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_update")
-    private Date lastUpdate;
-
-    @JoinColumn(name = "last_person")
-    @ManyToOne
-    private Person lastPerson;
-
     @OneToMany(mappedBy = "question")
+    @OrderBy(value = "code")
     private List<Answer> answers = new ArrayList<>();
     
 

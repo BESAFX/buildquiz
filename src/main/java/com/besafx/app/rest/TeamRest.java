@@ -1,5 +1,6 @@
 package com.besafx.app.rest;
 
+import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Team;
@@ -16,13 +17,11 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/team/")
@@ -35,16 +34,12 @@ public class TeamRest {
     private TeamService teamService;
 
     @Autowired
-    private PersonService personService;
-
-    @Autowired
     private NotificationService notificationService;
 
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEAM_CREATE')")
-    @Transactional
-    public String create(@RequestBody Team team, Principal principal) {
+    public String create(@RequestBody Team team) {
         if (teamService.findByAuthorities(team.getAuthorities()) != null) {
             throw new CustomException("هذة المجموعة موجودة بالفعل.");
         }
@@ -54,38 +49,36 @@ public class TeamRest {
         } else {
             team.setCode(topTeam.getCode() + 1);
         }
-        if(team.getAuthorities() == null || team.getAuthorities().isEmpty()){
-            team.setAuthorities(String.join(",", "ROLE_PROFILE_UPDATE"));
-        }
         team = teamService.save(team);
-        Person caller = personService.findByEmail(principal.getName());
+        Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
         notificationService.notifyOne(Notification
                 .builder()
+                .title(lang.equals("AR") ? "العمليات على الصلاحيات" : "Data Processing")
                 .message(lang.equals("AR") ? "تم انشاء مجموعة صلاحيات جديدة بنجاح" : "Create Privileges Successfully")
                 .type("success")
-                .build(), principal.getName());
+                .build(), caller.getUserName());
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), team);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEAM_UPDATE')")
-    @Transactional
-    public String update(@RequestBody Team team, Principal principal) {
+    public String update(@RequestBody Team team) {
         if (teamService.findByCodeAndIdIsNot(team.getCode(), team.getId()) != null) {
             throw new CustomException("هذا الكود مستخدم سابقاً، فضلاً قم بتغير الكود.");
         }
         Team object = teamService.findOne(team.getId());
         if (object != null) {
             team = teamService.save(team);
-            Person caller = personService.findByEmail(principal.getName());
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
             String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
             notificationService.notifyOne(Notification
                     .builder()
+                    .title(lang.equals("AR") ? "العمليات على الصلاحيات" : "Data Processing")
                     .message(lang.equals("AR") ? "تم تعديل الصلاحيات بنجاح" : "Update Privileges Successfully")
                     .type("warning")
-                    .build(), principal.getName());
+                    .build(), caller.getUserName());
             return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), team);
         } else {
             return null;
@@ -95,21 +88,21 @@ public class TeamRest {
     @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEAM_DELETE')")
-    @Transactional
-    public void delete(@PathVariable Long id, Principal principal) {
+    public void delete(@PathVariable Long id) {
         Team team = teamService.findOne(id);
         if (team != null) {
             if (!team.getPersons().isEmpty()) {
                 throw new CustomException("لا يمكن حذف هذة المجموعة لإعتماد بعض المستخدمين عليها.");
             }
             teamService.delete(id);
-            Person caller = personService.findByEmail(principal.getName());
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
             String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
             notificationService.notifyOne(Notification
                     .builder()
+                    .title(lang.equals("AR") ? "العمليات على الصلاحيات" : "Data Processing")
                     .message(lang.equals("AR") ? "تم حذف مجموعة الصلاحيات بنجاح" : "Delete Privileges Successfully")
                     .type("error")
-                    .build(), principal.getName());
+                    .build(), caller.getUserName());
         }
     }
 

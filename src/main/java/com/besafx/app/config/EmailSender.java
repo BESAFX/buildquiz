@@ -1,4 +1,5 @@
 package com.besafx.app.config;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
@@ -41,7 +41,6 @@ public class EmailSender {
 
     private MimeMessage message;
 
-    @PostConstruct
     public void init() {
         log.info("Preparing email service...");
         Properties props = new Properties();
@@ -53,8 +52,8 @@ public class EmailSender {
         log.info("Preparing email service successfully");
     }
 
-    @Async("threadPoolEmailSender")
-    public void send(String title, String content, List<String> toEmailList) {
+    @Async("threadSinglePool")
+    public Future<Boolean> send(String title, String content, List<String> toEmailList) {
         try {
             log.info("Sleeping for 10 seconds");
             Thread.sleep(10000);
@@ -63,8 +62,8 @@ public class EmailSender {
             message = new MimeMessage(mailSession);
             message.setSubject(title, "UTF-8");
             message.setText(content, "UTF-8", "html");
-            message.setFrom(new InternetAddress("tasks@tafear.edu.sa", "الصيدلية الذكية", "UTF-8"));
-            toEmailList.stream().forEach(email -> {
+            message.setFrom(new InternetAddress("admin@ararhni.com", "Training-KSA.com", "UTF-8"));
+            toEmailList.stream().distinct().forEach(email -> {
                 try {
                     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
                 } catch (Exception ex) {
@@ -75,14 +74,16 @@ public class EmailSender {
             transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
             transport.close();
             log.info("Sending email successfully to this destinations: " + toEmailList);
+            return new AsyncResult<>(true);
         } catch (Exception ex) {
             log.info(ex.getMessage());
             resend();
             send(title, content, toEmailList);
+            return new AsyncResult<>(false);
         }
     }
 
-    @Async("threadPoolEmailSender")
+    @Async("threadSinglePool")
     public Future<Boolean> send(String title, String content, List<String> toEmailList, List<File> files) {
         try {
             log.info("Sleeping for 10 seconds");
@@ -90,9 +91,9 @@ public class EmailSender {
             log.info("Trying sending email to this destinations: " + toEmailList);
             transport = mailSession.getTransport();
             message = new MimeMessage(mailSession);
-            message.setFrom(new InternetAddress("tasks@tafear.edu.sa", "الصيدلية الذكية", "UTF-8"));
+            message.setFrom(new InternetAddress("admin@ararhni.com", "Training-KSA.com", "UTF-8"));
             message.setSubject(title, "UTF-8");
-            toEmailList.stream().forEach(email -> {
+            toEmailList.stream().distinct().forEach(email -> {
                 try {
                     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
                 } catch (Exception ex) {
@@ -107,7 +108,7 @@ public class EmailSender {
             while (fileListIterator.hasNext()) {
                 File file = fileListIterator.next();
                 messageBodyPart = new MimeBodyPart();
-                DataSource source = new FileDataSource(file);
+                FileDataSource source = new FileDataSource(file);
                 messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(file.getName());
                 multipart.addBodyPart(messageBodyPart);
@@ -126,8 +127,8 @@ public class EmailSender {
         }
     }
 
-    @Async("threadPoolEmailSender")
-    public void send(String title, String content, String email) {
+    @Async("threadSinglePool")
+    public Future<Boolean> send(String title, String content, String email) {
         try {
             log.info("Sleeping for 10 seconds");
             Thread.sleep(10000);
@@ -136,20 +137,21 @@ public class EmailSender {
             message = new MimeMessage(mailSession);
             message.setSubject(title, "UTF-8");
             message.setText(content, "UTF-8", "html");
-            message.setFrom(new InternetAddress("tasks@tafear.edu.sa", "الصيدلية الذكية", "UTF-8"));
+            message.setFrom(new InternetAddress("admin@ararhni.com", "Training-KSA.com", "UTF-8"));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             transport.connect(SMTP_HOST_NAME, SMTP_HOST_PORT, SMTP_AUTH_USER, SMTP_AUTH_PWD);
             transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
             transport.close();
             log.info("Sending email successfully to this destinations: " + email);
+            return new AsyncResult<>(true);
         } catch (Exception ex) {
             log.info(ex.getMessage());
             resend();
-            send(title, content, email);
+            return new AsyncResult<>(false);
         }
     }
 
-    @Async("threadPoolEmailSender")
+    @Async("threadSinglePool")
     public Future<Boolean> send(String title, String content, String email, List<File> files) {
         try {
             log.info("Sleeping for 10 seconds");
@@ -157,7 +159,7 @@ public class EmailSender {
             log.info("Trying sending email to this destinations: " + email);
             transport = mailSession.getTransport();
             message = new MimeMessage(mailSession);
-            message.setFrom(new InternetAddress("tasks@tafear.edu.sa", "الصيدلية الذكية", "UTF-8"));
+            message.setFrom(new InternetAddress("admin@ararhni.com", "Training-KSA.com", "UTF-8"));
             message.setSubject(title, "UTF-8");
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             BodyPart messageBodyPart = new MimeBodyPart();

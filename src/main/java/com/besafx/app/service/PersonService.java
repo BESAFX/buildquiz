@@ -9,6 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public interface PersonService extends PagingAndSortingRepository<Person, Long>, JpaSpecificationExecutor<Person> {
-    Person findByEmail(String email);
+    Person findByUserName(String userName);
 }
 

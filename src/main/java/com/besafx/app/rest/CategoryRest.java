@@ -1,5 +1,6 @@
 package com.besafx.app.rest;
 
+import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.entity.Category;
 import com.besafx.app.entity.Person;
 import com.besafx.app.service.CategoryService;
@@ -16,6 +17,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +29,15 @@ import java.util.List;
 @RequestMapping(value = "/api/category/")
 public class CategoryRest {
 
-    public static final String FILTER_TABLE = "**,lastPerson[id,nickname,name]";
-    public static final String FILTER_CATEGORY_COMBO = "id,code,name";
+    public static final String FILTER_TABLE = "" +
+            "**";
+    public static final String FILTER_CATEGORY_COMBO = "" +
+            "id," +
+            "code," +
+            "name";
 
     @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    private PersonService personService;
 
     @Autowired
     private NotificationService notificationService;
@@ -42,24 +45,21 @@ public class CategoryRest {
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_CATEGORY_CREATE')")
-    @Transactional
-    public String create(@RequestBody Category category, Principal principal) {
+    public String create(@RequestBody Category category) {
         Category topCategory = categoryService.findTopByOrderByCodeDesc();
         if(topCategory == null){
             category.setCode(1);
         }else{
             category.setCode(topCategory.getCode() + 1);
         }
-        Person caller = personService.findByEmail(principal.getName());
-        category.setLastPerson(caller);
-        category.setLastUpdate(new DateTime().toDate());
         category = categoryService.save(category);
+        Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
         notificationService.notifyOne(Notification
                 .builder()
                 .message(lang.equals("AR") ? "تم انشاء المادة بنجاح" : "Create Subject Successfully")
                 .type("success")
-                .build(), principal.getName());
+                .build(), caller.getUserName());
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), category);
     }
 
@@ -70,9 +70,7 @@ public class CategoryRest {
     public String update(@RequestBody Category category, Principal principal) {
         Category object = categoryService.findOne(category.getId());
         if (object != null) {
-            Person caller = personService.findByEmail(principal.getName());
-            category.setLastPerson(caller);
-            category.setLastUpdate(new DateTime().toDate());
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
             category = categoryService.save(category);
             String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
             notificationService.notifyOne(Notification
@@ -94,7 +92,7 @@ public class CategoryRest {
         Category category = categoryService.findOne(id);
         if (category != null) {
             categoryService.delete(id);
-            Person caller = personService.findByEmail(principal.getName());
+            Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
             String lang = JSONConverter.toObject(caller.getOptions(), Options.class).getLang();
             notificationService.notifyOne(Notification
                     .builder()

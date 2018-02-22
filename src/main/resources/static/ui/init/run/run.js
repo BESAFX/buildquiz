@@ -1,63 +1,46 @@
-app.run(['$http', '$location', '$state', '$timeout', '$window', 'PersonService', '$rootScope', '$stateParams', '$log', '$css', '$stomp', 'defaultErrorMessageResolver', 'ModalProvider', 'Fullscreen', '$anchorScroll',
-    function ($http, $location, $state, $timeout, $window, PersonService, $rootScope, $stateParams, $log, $css, $stomp, defaultErrorMessageResolver, ModalProvider, Fullscreen, $anchorScroll) {
+app.run([
+    '$http',
+    '$location',
+    '$state',
+    '$timeout',
+    '$window',
+    'PersonService',
+    '$rootScope',
+    '$stateParams',
+    '$log',
+    '$css',
+    '$stomp',
+    '$uibModal',
+    'defaultErrorMessageResolver',
+    'ModalProvider',
+    'Fullscreen',
+    function (
+        $http,
+        $location,
+        $state,
+        $timeout,
+        $window,
+        PersonService,
+        $rootScope,
+        $stateParams,
+        $log,
+        $css,
+        $stomp,
+        $uibModal,
+        defaultErrorMessageResolver,
+        ModalProvider,
+        Fullscreen
+    ) {
 
         $rootScope.state = $state;
         $rootScope.stateParams = $stateParams;
-        $anchorScroll.yOffset = 122;
 
         defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
             errorMessages['fieldRequired'] = 'هذا الحقل مطلوب';
         });
 
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
-            $.noty.clearQueue(); // Clears the notification queue
-            $.noty.closeAll(); // Close all notifications
-            switch (toState.name) {
-                case 'home': {
-                    $rootScope.applyTitleLang();
-                    $rootScope.MDLIcon = 'account_box';
-                    $rootScope.applyCssLang();
-                    break;
-                }
-                case 'admin.category':
-                case 'admin.quiz':
-                case 'admin.question':
-                case 'admin.answer':
-                case 'admin.team':
-                case 'admin.person':
-                {
-                    $rootScope.applyTitleLang();
-                    $rootScope.MDLIcon = 'settings';
-                    $rootScope.applyCssLang();
-                    break;
-                }
-                case 'profile': {
-                    $rootScope.applyTitleLang();
-                    $rootScope.MDLIcon = 'book';
-                    $rootScope.applyCssLang();
-                    break;
-                }
-                case 'help': {
-                    $rootScope.applyTitleLang();
-                    $rootScope.MDLIcon = 'help';
-                    $rootScope.applyCssLang();
-                    break;
-                }
-                case 'about': {
-                    $rootScope.applyTitleLang();
-                    $rootScope.MDLIcon = 'info';
-                    $rootScope.applyCssLang();
-                    break;
-                }
-            }
-        });
-
         $rootScope.contains = function (list, values) {
             return list ? _.intersection(values, list.split(',')).length > 0 : false;
-        };
-
-        $rootScope.refreshGUI = function () {
-            window.componentHandler.upgradeAllRegistered();
         };
 
         $rootScope.logout = function () {
@@ -87,56 +70,9 @@ app.run(['$http', '$location', '$state', '$timeout', '$window', 'PersonService',
                     $css.add('/ui/css/style.css');
                     break;
             }
-            $rootScope.applyTitleLang();
             window.componentHandler.upgradeAllRegistered();
-            PersonService.setGUILang($rootScope.lang);
             $rootScope.state.reload();
-        };
-
-        $rootScope.applyTitleLang = function () {
-            $timeout(function () {
-                switch ($rootScope.state.current.name) {
-                    case 'home':
-                        if ($rootScope.lang === 'AR') {
-                            $rootScope.pageTitle = 'الرئيسية';
-                        } else {
-                            $rootScope.pageTitle = 'Dashboard';
-                        }
-                        break;
-                    case 'admin.category':
-                    case 'admin.quiz':
-                    case 'admin.question':
-                    case 'admin.team':
-                    case 'admin.person':
-                        if ($rootScope.lang === 'AR') {
-                            $rootScope.pageTitle = 'الإدارة';
-                        } else {
-                            $rootScope.pageTitle = 'Control Center';
-                        }
-                        break;
-                    case 'profile':
-                        if ($rootScope.lang === 'AR') {
-                            $rootScope.pageTitle = 'الملف الشخصي';
-                        } else {
-                            $rootScope.pageTitle = 'Profile';
-                        }
-                        break;
-                    case 'help':
-                        if ($rootScope.lang === 'AR') {
-                            $rootScope.pageTitle = 'المساعدة';
-                        } else {
-                            $rootScope.pageTitle = 'Help';
-                        }
-                        break;
-                    case 'about':
-                        if ($rootScope.lang === 'AR') {
-                            $rootScope.pageTitle = 'عن البرنامج';
-                        } else {
-                            $rootScope.pageTitle = 'About';
-                        }
-                        break;
-                }
-            }, 1000);
+            PersonService.setGUILang($rootScope.lang);
         };
 
         $rootScope.applyCssLang = function () {
@@ -155,17 +91,38 @@ app.run(['$http', '$location', '$state', '$timeout', '$window', 'PersonService',
             }, 1500);
         };
 
+        $rootScope.style = 'mdl-style';
+        $rootScope.setStyle = function (style) {
+            $rootScope.style = style ? style : 'mdl-style';
+            $css.removeAll();
+            $css.add([
+                '/ui/css/'+ $rootScope.style +'.css',
+                '/ui/css/theme-black.css'
+            ], $rootScope);
+            $rootScope.applyCssLang();
+            PersonService.setStyle($rootScope.style);
+        };
+
         $rootScope.ModalProvider = ModalProvider;
 
-        $rootScope.today = new Date();
+        $rootScope.toggleDrawer =function () {
+            $rootScope.drawer = document.querySelector('.mdl-layout');
+            $rootScope.drawer.MaterialLayout.toggleDrawer();
+        };
 
         $rootScope.me = {};
+
         PersonService.findActivePerson().then(function (data) {
             $rootScope.me = data;
             $rootScope.options = JSON.parse($rootScope.me.options);
             $rootScope.lang = $rootScope.options.lang;
             $rootScope.dateType = $rootScope.options.dateType;
-            $rootScope.applyTitleLang();
+            $rootScope.style = $rootScope.options.style ? $rootScope.options.style : 'mdl-style';
+            $css.removeAll();
+            $css.add([
+                '/ui/css/'+ $rootScope.style +'.css',
+                '/ui/css/theme-black.css'
+            ], $rootScope);
             $rootScope.applyCssLang();
         });
 
@@ -323,5 +280,12 @@ app.run(['$http', '$location', '$state', '$timeout', '$window', 'PersonService',
                 $rootScope.showNotify(payload.title, payload.message, payload.type, payload.icon, payload.layout);
             }, {'headers': 'notify'});
         });
+        $rootScope.today = new Date();
+
+        /**************************************************************
+         *                                                            *
+         * Printer Connect                                            *
+         *                                                            *
+         *************************************************************/
 
     }]);

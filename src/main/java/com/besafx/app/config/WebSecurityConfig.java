@@ -1,7 +1,9 @@
 package com.besafx.app.config;
 
+import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.entity.Person;
 import com.besafx.app.service.PersonService;
+import com.besafx.app.service.TrainerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -45,6 +45,9 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private PersonService personService;
 
     @Autowired
+    private TrainerService trainerService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -52,17 +55,10 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/ui/**").permitAll()
                 .antMatchers("/api/**").permitAll()
-                .antMatchers("/admin").denyAll()
-                .antMatchers("/admin/category").access("hasRole('ROLE_CATEGORY_READ') or hasRole('ROLE_CATEGORY_CREATE') or hasRole('ROLE_CATEGORY_UPDATE') or hasRole('ROLE_CATEGORY_DELETE')")
-                .antMatchers("/admin/quiz").access("hasRole('ROLE_QUIZ_READ') or hasRole('ROLE_QUIZ_CREATE') or hasRole('ROLE_QUIZ_UPDATE') or hasRole('ROLE_QUIZ_DELETE')")
-                .antMatchers("/admin/question").access("hasRole('ROLE_QUESTION_READ') or hasRole('ROLE_QUESTION_CREATE') or hasRole('ROLE_QUESTION_UPDATE') or hasRole('ROLE_QUESTION_DELETE')")
-                .antMatchers("/admin/answer").access("hasRole('ROLE_ANSWER_READ') or hasRole('ROLE_ANSWER_CREATE') or hasRole('ROLE_ANSWER_UPDATE') or hasRole('ROLE_ANSWER_DELETE')")
-                .antMatchers("/admin/person").access("hasRole('ROLE_PERSON_READ') or hasRole('ROLE_PERSON_CREATE') or hasRole('ROLE_PERSON_UPDATE') or hasRole('ROLE_PERSON_DELETE')")
-                .antMatchers("/admin/team").access("hasRole('ROLE_TEAM_READ') or hasRole('ROLE_TEAM_CREATE') or hasRole('ROLE_TEAM_UPDATE') or hasRole('ROLE_TEAM_DELETE')")
                 .anyRequest().authenticated();
         http.formLogin()
                 .loginPage("/login")
-                .usernameParameter("email")
+                .usernameParameter("userName")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/menu")
                 .permitAll();
@@ -71,9 +67,8 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .logoutSuccessUrl("/")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
+        http.rememberMe();
+        http.csrf().disable();
         http.sessionManagement()
                 .maximumSessions(1)
                 .sessionRegistry(sessionRegistry());
@@ -89,10 +84,11 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher() {
             @Override
             public void sessionDestroyed(HttpSessionEvent event) {
+                log.info("SESSION DESTROYED");
                 SecurityContextImpl securityContext = (SecurityContextImpl) event.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
                 if (securityContext != null) {
                     UserDetails userDetails = (UserDetails) securityContext.getAuthentication().getPrincipal();
-                    Person person = personService.findByEmail(userDetails.getUsername());
+                    Person person = personService.findByUserName(userDetails.getUsername());
                     person.setActive(false);
                     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
                     person.setIpAddress(request.getRemoteAddr());
@@ -106,8 +102,8 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         try {
-            auth.userDetailsService((String email) -> {
-                        Person person = personService.findByEmail(email);
+            auth.userDetailsService((String userName) -> {
+                        Person person = personService.findByUserName(userName);
                         List<GrantedAuthority> authorities = new ArrayList<>();
                         authorities.add(new SimpleGrantedAuthority("ROLE_PROFILE_UPDATE"));
                         if (SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -115,6 +111,16 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             if (person == null) {
                                 log.info("هذا المستخدم غير موجود");
                                 throw new UsernameNotFoundException("هذا المستخدم غير موجود");
+                            }
+                            log.info("فحص إذا كان المستخدم ليس دعماً فنياً");
+                            if (person.getTechnicalSupport()) {
+                                log.info("السماح بمرور الدعم الفني");
+                            } else {
+                                log.info("فحص هل هذا المستخدم دكتور أو موظف");
+                                if (trainerService.findByPerson(person) == null) {
+                                    log.info("هذا المستخدم لا يشغل مناصب وظيفية داخل النظام");
+                                    throw new UsernameNotFoundException("هذا المستخدم لا يشغل مناصب وظيفية داخل النظام");
+                                }
                             }
                             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
                             person.setLastLoginDate(new Date());
@@ -124,7 +130,7 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             log.info(person.getTeam().getAuthorities());
                             Optional.ofNullable(person.getTeam().getAuthorities()).ifPresent(value -> Arrays.asList(value.split(",")).stream().forEach(s -> authorities.add(new SimpleGrantedAuthority(s))));
                         }
-                        return new User(person.getEmail(), person.getPassword(), person.getEnabled(), true, true, true, authorities);
+                        return new PersonAwareUserDetails(person, authorities);
                     }
             ).passwordEncoder(passwordEncoder);
         } catch (Exception e) {

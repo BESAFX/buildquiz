@@ -36,14 +36,6 @@ public class Category implements Serializable {
 
     private String description;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_update")
-    private Date lastUpdate;
-
-    @JoinColumn(name = "last_person")
-    @ManyToOne
-    private Person lastPerson;
-
     @JsonCreator
     public static Category Create(String jsonString) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
