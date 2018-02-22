@@ -1,0 +1,380 @@
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+    <header class="mdl-layout__header">
+
+        <div class="mdl-layout__header-row">
+
+            <div class="mdl-layout-icon">
+                <a class="mdl-button mdl-js-button mdl-button--icon" ng-click="openStateMenu()">
+                    <i class="material-icons">{{MDLIcon}}</i>
+                </a>
+            </div>
+
+            <span class="mdl-layout__title">{{pageTitle}}</span>
+
+            <div class="btn-toolbar">
+                <div class="btn-group" data-toggle="buttons">
+
+                    <button id="toggle-admin-action-menu-lower"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+                        <i class="material-icons">settings_applications</i>
+                        <span ng-if="lang==='AR'">الإدارة</span>
+                        <span ng-if="lang==='EN'">Control</span>
+                    </button>
+                    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect"
+                        ng-class="{'mdl-menu--bottom-right' : lang==='AR', 'mdl-menu--bottom-left' : lang==='EN'}"
+                        for="toggle-admin-action-menu-lower">
+
+                        <li class="mdl-menu__item--full-bleed-divider"></li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-show="contains(me.team.authorities, ['ROLE_TEAM_CREATE', 'ROLE_TEAM_UPDATE', 'ROLE_TEAM_DELETE'])"
+                            ng-click="openStateTeam()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">security</i>
+                               <span ng-if="lang==='AR'">سجل الصلاحيات</span>
+                               <span ng-if="lang==='EN'">Privileges List</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-if="contains(me.team.authorities, ['ROLE_TEAM_CREATE'])"
+                            ng-click="newTeam()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">note_add</i>
+                               <span ng-if="lang==='AR'">صلاحيات جديدة...</span>
+                               <span ng-if="lang==='EN'">New Privilege...</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item--full-bleed-divider"></li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-show="contains(me.team.authorities, ['ROLE_TRAINER_CREATE', 'ROLE_TRAINER_UPDATE', 'ROLE_TRAINER_DELETE'])"
+                            ng-click="openStateTrainer()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">security</i>
+                               <span ng-if="lang==='AR'">سجل المدربين</span>
+                               <span ng-if="lang==='EN'">Trainers List</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-if="contains(me.team.authorities, ['ROLE_TRAINER_CREATE'])"
+                            ng-click="newTrainer()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">note_add</i>
+                               <span ng-if="lang==='AR'">مدرب جديد...</span>
+                               <span ng-if="lang==='EN'">New Trainer...</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item--full-bleed-divider"></li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-show="contains(me.team.authorities, ['ROLE_TRAINEE_CREATE', 'ROLE_TRAINEE_UPDATE', 'ROLE_TRAINEE_DELETE'])"
+                            ng-click="openStateTrainer()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">security</i>
+                               <span ng-if="lang==='AR'">سجل المتدربين</span>
+                               <span ng-if="lang==='EN'">Trainers List</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-if="contains(me.team.authorities, ['ROLE_TRAINEE_CREATE'])"
+                            ng-click="newTrainer()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">note_add</i>
+                               <span ng-if="lang==='AR'">متدرب جديد...</span>
+                               <span ng-if="lang==='EN'">New Trainer...</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item--full-bleed-divider"></li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-show="contains(me.team.authorities, ['ROLE_QUIZ_CREATE', 'ROLE_QUIZ_UPDATE', 'ROLE_QUIZ_DELETE'])"
+                            ng-click="openStateQuiz()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">security</i>
+                               <span ng-if="lang==='AR'">سجل الاختبارات</span>
+                               <span ng-if="lang==='EN'">Quizzes List</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-if="contains(me.team.authorities, ['ROLE_QUIZ_CREATE'])"
+                            ng-click="newQuiz()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">note_add</i>
+                               <span ng-if="lang==='AR'">اختبار جديد...</span>
+                               <span ng-if="lang==='EN'">New Quiz...</span>
+                            </span>
+                        </li>
+
+                    </ul>
+
+                    <button id="toggle-options-menu-lower-right"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+                        <i class="material-icons">settings</i>
+                        <span ng-if="lang==='AR'">خيارات</span>
+                        <span ng-if="lang==='EN'">Preferences</span>
+                    </button>
+                    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect"
+                        ng-class="{'mdl-menu--bottom-right' : lang==='AR', 'mdl-menu--bottom-left' : lang==='EN'}"
+                        for="toggle-options-menu-lower-right">
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="goFullscreen()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">fullscreen</i>
+                                <span ng-if="lang==='AR'">تفعيل ملء الشاشة</span>
+                                <span ng-if="lang==='EN'">Full Screen Mode</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="switchDateType()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">timer</i>
+                                <span ng-if="dateType==='H' && lang==='AR'">تطبيق التاريخ الميلادي</span>
+                                <span ng-if="dateType==='H' && lang==='EN'">GREGORIAN DATE</span>
+                                <span ng-if="dateType==='G' && lang==='AR'">تطبيق التاريخ الهجري</span>
+                                <span ng-if="dateType==='G' && lang==='EN'">HIJRI DATE</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item mdl-menu__item--full-bleed-divider"
+                            ng-click="switchLang()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">language</i>
+                                <span ng-if="lang==='EN'">ARABIC GUI</span>
+                                <span ng-if="lang==='AR'">تطبيق الواجهة الإنجليزية</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item--full-bleed-divider"></li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle();">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: #313534">format_color_fill</i>
+                                <span>تطبيق المظهر الافتراضي</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-1');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(121, 85, 72)">format_color_fill</i>
+                                <span>تطبيق المظهر الأول</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-2');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(76, 175, 80)">format_color_fill</i>
+                                <span>تطبيق المظهر الثاني</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-3');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(158, 158, 158)">format_color_fill</i>
+                                <span>تطبيق المظهر الثالث</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-4');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(63, 81, 181)">format_color_fill</i>
+                                <span>تطبيق المظهر الرابع</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-5');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(139, 195, 74)">format_color_fill</i>
+                                <span>تطبيق المظهر الخامس</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-6');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(205, 220, 57)">format_color_fill</i>
+                                <span>تطبيق المظهر السادس</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-7');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(156, 39, 176)">format_color_fill</i>
+                                <span>تطبيق المظهر السابع</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="setStyle('mdl-style-8');">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon" style="color: rgb(244, 67, 54)">format_color_fill</i>
+                                <span>تطبيق المظهر الثامن</span>
+                            </span>
+                        </li>
+
+                    </ul>
+
+                    <button id="toggle-help-menu-lower-right"
+                            class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+                        <i class="material-icons">help</i>
+                        <span ng-if="lang==='AR'">مساعدة</span>
+                        <span ng-if="lang==='EN'">Help</span>
+                    </button>
+                    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect"
+                        ng-class="{'mdl-menu--bottom-right' : lang==='AR', 'mdl-menu--bottom-left' : lang==='EN'}"
+                        for="toggle-help-menu-lower-right">
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="openStateHelp()">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">help</i>
+                                <span>المساعدة</span>
+                            </span>
+                        </li>
+
+                        <li class="mdl-menu__item mdl-list__item"
+                            ng-click="openStateAbout();">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-icon">info</i>
+                                <span>عن البرنامج</span>
+                            </span>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="mdl-layout-spacer"></div>
+
+            <button id="menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon mdl-icon-margin">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul ng-class="{'mdl-menu--bottom-left' : lang==='AR', 'mdl-menu--bottom-right' : lang==='EN'}"
+                class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-shadow--2dp"
+                for="menu-lower-left">
+                <li class="mdl-list__item mdl-list__item--two-line mdl-menu__item--full-bleed-divider">
+                    <span class="mdl-list__item-primary-content">
+                        <span class="material-icons mdl-list__item-avatar"
+                              ng-style="{'background-image': 'url(' + me.img + ')'}"></span>
+                        <span>{{me.name}}</span>
+                        <span class="mdl-list__item-sub-title">{{me.qualification}}</span>
+                    </span>
+                </li>
+                <li class="mdl-menu__item mdl-list__item" ng-click="openStateHelp();">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">help</i>
+                        <span ng-if="lang==='AR'">المساعدة</span>
+                        <span ng-if="lang==='EN'">HELP</span>
+                    </span>
+                </li>
+                <li class="mdl-menu__item mdl-list__item" ng-click="openStateAbout();">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">info</i>
+                        <span ng-if="lang==='AR'">عن البرنامج</span>
+                        <span ng-if="lang==='EN'">ABOUT</span>
+                    </span>
+                </li>
+                <li class="mdl-menu__item mdl-list__item mdl-menu__item--full-bleed-divider" ng-click="openStateProfile();">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">account_box</i>
+                        <span ng-if="lang==='AR'">الملف الشخصي</span>
+                        <span ng-if="lang==='EN'">PROFILE</span>
+                    </span>
+                </li>
+                <li class="mdl-menu__item mdl-list__item" ng-click="logout()">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-icon">exit_to_app</i>
+                        <span ng-if="lang==='AR'">تسجيل الخروج</span>
+                        <span ng-if="lang==='EN'">SIGN OUT</span>
+                    </span>
+                </li>
+            </ul>
+
+        </div>
+
+    </header>
+
+    <main class="mdl-layout__content">
+
+        <div ng-if="toggleState==='menu'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_menu.html'"></div>
+
+        </div>
+
+        <div ng-if="toggleState==='trainee'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_trainee.html'"></div>
+
+        </div>
+
+        <div ng-if="toggleState==='trainer'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_trainer.html'"></div>
+
+        </div>
+
+        <div ng-if="toggleState==='quiz'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_quiz.html'"></div>
+
+        </div>
+
+        <div ng-show="toggleState==='team'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_team.html'"></div>
+
+        </div>
+
+        <div ng-show="toggleState==='profile'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_profile.html'"></div>
+
+        </div>
+
+        <div ng-show="toggleState==='help'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_help.html'"></div>
+
+        </div>
+
+        <div ng-show="toggleState==='about'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_about.html'"></div>
+
+        </div>
+
+        <div ng-show="toggleState==='report'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_report.html'"></div>
+
+        </div>
+
+    </main>
+
+    <footer class="mdl-mini-footer mdl-color--primary mdl-color-text--white">
+        <div class="row" style="margin: auto">
+            <span ng-if="lang==='AR'" dir="rtl">جميع الحقوق محفوظة للمعهد الأهلي العالي للتدريب - القدرات والتحصيلي (نسخة تجريبية)</span>
+            <span ng-if="lang==='EN'" dir="ltr">© 2018  Privacy Policy - Build Quiz (Demo Version)</span>
+        </div>
+    </footer>
+
+</div>

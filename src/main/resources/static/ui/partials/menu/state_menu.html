@@ -1,0 +1,90 @@
+<div class="container">
+
+    <div class="form-group row">
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateTrainer()"
+             ng-if="contains(me.team.authorities, [
+             'ROLE_TRAINER_CREATE',
+             'ROLE_TRAINER_UPDATE',
+             'ROLE_TRAINER_DELETE'])">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/trainer.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">المدربين</span>
+                    <span ng-if="lang==='EN'">TRAINER</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateTrainee()"
+             ng-if="contains(me.team.authorities, [
+             'ROLE_TRAINEE_CREATE',
+             'ROLE_TRAINEE_UPDATE',
+             'ROLE_TRAINEE_DELETE'])">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/trainee.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">المتدربين</span>
+                    <span ng-if="lang==='EN'">TRAINEE</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateQuiz()"
+             ng-if="contains(me.team.authorities, [
+             'ROLE_QUIZ_CREATE',
+             'ROLE_QUIZ_UPDATE',
+             'ROLE_QUIZ_DELETE'])">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/quiz.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">الاختبارات</span>
+                    <span ng-if="lang==='EN'">QUIZZES</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateTeam()"
+             ng-if="contains(me.team.authorities, [
+             'ROLE_TEAM_CREATE',
+             'ROLE_TEAM_UPDATE',
+             'ROLE_TEAM_DELETE'
+             ])">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/team.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">الصلاحيات</span>
+                    <span ng-if="lang==='EN'">PRIVILEGES</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateReport()">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/report.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">التقارير</span>
+                    <span ng-if="lang==='EN'">REPORTS</span>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
