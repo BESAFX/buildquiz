@@ -38,7 +38,7 @@ public class TraineeRest {
     public static final String FILTER_TABLE = "" +
             "**," +
             "traineeQuizzes[**,quiz[id,code,content],-trainee]," +
-            "person[id,name,email]";
+            "person[id,contact[id,name,email]]";
     public static final String FILTER_DETAILS = "" +
             "**," +
             "traineeQuizzes[**,quiz[id,code,content,category[id,code,name]],-trainee]," +
@@ -46,7 +46,7 @@ public class TraineeRest {
     public static final String FILTER_COMBO = "" +
             "**," +
             "-traineeQuizzes," +
-            "person[id,name]";
+            "person[id,contact[id,name,email]]";
 
     private final static Logger log = LoggerFactory.getLogger(TraineeRest.class);
 

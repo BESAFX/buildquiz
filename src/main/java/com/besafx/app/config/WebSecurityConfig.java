@@ -105,22 +105,11 @@ WebSecurityConfig extends WebSecurityConfigurerAdapter {
             auth.userDetailsService((String userName) -> {
                         Person person = personService.findByUserName(userName);
                         List<GrantedAuthority> authorities = new ArrayList<>();
-                        authorities.add(new SimpleGrantedAuthority("ROLE_PROFILE_UPDATE"));
                         if (SecurityContextHolder.getContext().getAuthentication() == null) {
                             log.info("فحص وجود المستخدم");
                             if (person == null) {
                                 log.info("هذا المستخدم غير موجود");
                                 throw new UsernameNotFoundException("هذا المستخدم غير موجود");
-                            }
-                            log.info("فحص إذا كان المستخدم ليس دعماً فنياً");
-                            if (person.getTechnicalSupport()) {
-                                log.info("السماح بمرور الدعم الفني");
-                            } else {
-                                log.info("فحص هل هذا المستخدم دكتور أو موظف");
-                                if (trainerService.findByPerson(person) == null) {
-                                    log.info("هذا المستخدم لا يشغل مناصب وظيفية داخل النظام");
-                                    throw new UsernameNotFoundException("هذا المستخدم لا يشغل مناصب وظيفية داخل النظام");
-                                }
                             }
                             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
                             person.setLastLoginDate(new Date());

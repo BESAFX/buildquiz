@@ -213,6 +213,15 @@ app.controller('teamCreateUpdateCtrl', [
             selected: false,
             category: $rootScope.lang === 'AR' ? 'الإدارة' : 'Administrator'
         });
+        //////////////////////////Report////////////////////////////////
+        $scope.roles.push({
+            nameArabic: 'طباعة التقارير',
+            nameEnglish: 'Print Reports',
+            value: 'ROLE_REPORT_PRINT',
+            selected: false,
+            category: $rootScope.lang === 'AR' ? 'الإدارة' : 'Administrator'
+        });
+
 
         if (team) {
             $scope.team = team;
@@ -233,6 +242,7 @@ app.controller('teamCreateUpdateCtrl', [
 
         $scope.submit = function () {
             $scope.team.authorities = [];
+            $scope.team.authorities.push('ROLE_PROFILE_UPDATE');
             angular.forEach($scope.roles, function (role) {
                 if (role.selected) {
                     $scope.team.authorities.push(role.value);

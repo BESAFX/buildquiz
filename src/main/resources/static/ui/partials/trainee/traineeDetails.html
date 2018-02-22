@@ -10,7 +10,7 @@
                 <i class="material-icons mdl-list__item-icon mdl-color-text--white">{{action==='create' ? 'add' : 'edit'}}</i>
                 <strong ng-if="lang==='AR'">تفاصيل المتدرب / </strong>
                 <strong ng-if="lang==='EN'">Trainee Details / </strong>
-                &nbsp;{{trainee.contact.name}}
+                &nbsp;{{trainee.person.contact.name}}
             </span>
         </h3>
     </div>
@@ -75,7 +75,7 @@
                                         <span ng-if="lang==='AR'">اسم المتدرب</span>
                                         <span ng-if="lang==='EN'">Name</span>
                                     </td>
-                                    <td>{{trainee.contact.name}}</td>
+                                    <td>{{trainee.person.contact.name}}</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -83,9 +83,9 @@
                                         <span ng-if="lang==='EN'">Register Date</span>
                                     </td>
                                     <td>
-                                        <span ng-show="dateType==='H'">{{trainee.contact.registerDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
-                                        <span ng-show="dateType==='G'">{{trainee.contact.registerDate | date: 'yyyy-MM-dd'}}</span>
-                                        {{trainee.contact.registerDate | date:'h:m a'}}
+                                        <span ng-show="dateType==='H'">{{trainee.person.contact.registerDate | kdate: 'yyyy-mm-dd' : 'ar' : 'ummalqura'}}</span>
+                                        <span ng-show="dateType==='G'">{{trainee.person.contact.registerDate | date: 'yyyy-MM-dd'}}</span>
+                                        {{trainee.person.contact.registerDate | date:'h:m a'}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -93,28 +93,28 @@
                                         <span ng-if="lang==='AR'">الجوال 1</span>
                                         <span ng-if="lang==='EN'">Mobile 1</span>
                                     </td>
-                                    <td>{{trainee.contact.mobile1}}</td>
+                                    <td>{{trainee.person.contact.mobile1}}</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <span ng-if="lang==='AR'">الجوال 2</span>
                                         <span ng-if="lang==='EN'">Mobile 2</span>
                                     </td>
-                                    <td>{{trainee.contact.mobile2}}</td>
+                                    <td>{{trainee.person.contact.mobile2}}</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <span ng-if="lang==='AR'">رقم الهوية</span>
                                         <span ng-if="lang==='EN'">Identity Card Number</span>
                                     </td>
-                                    <td>{{trainee.contact.identityNumber}}</td>
+                                    <td>{{trainee.person.contact.identityNumber}}</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <span ng-if="lang==='AR'">الجنسية</span>
                                         <span ng-if="lang==='EN'">Nationality</span>
                                     </td>
-                                    <td>{{trainee.contact.nationality}}</td>
+                                    <td>{{trainee.person.contact.nationality}}</td>
                                 </tr>
                                 </tbody>
                             </table>

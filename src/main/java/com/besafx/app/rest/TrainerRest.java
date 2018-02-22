@@ -37,7 +37,7 @@ public class TrainerRest {
             "person[**,-hiddenPassword,team[id]]";
     public static final String FILTER_TRAINER_COMBO = "" +
             "**," +
-            "person[id,nickname,name,mobile]";
+            "person[id,contact[id,nickname,name,email]]";
 
     private final static Logger log = LoggerFactory.getLogger(TrainerRest.class);
 
