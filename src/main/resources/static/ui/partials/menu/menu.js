@@ -673,7 +673,7 @@ function menuCtrl($scope,
     };
     $scope.uploadPersonPhoto = function (files) {
         PersonService.uploadPersonPhoto(files[0]).then(function (data) {
-            $scope.me.photo = data;
+            $scope.me.contact.photo = data;
         });
     };
 

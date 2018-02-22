@@ -29,7 +29,7 @@ app.factory("PersonService",
             uploadPersonPhoto: function (file) {
                 var fd = new FormData();
                 fd.append('file', file);
-                return $http.post("/uploadUserPhoto", fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (response) {
+                return $http.post("/api/person/uploadPersonPhoto", fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).then(function (response) {
                     return response.data;
                 });
             }
