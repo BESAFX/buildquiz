@@ -46,9 +46,11 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
                 action: function () {
                     return 'update';
                 },
-                trainee: function () {
-                    return trainee;
-                }
+                trainee: ['TraineeService', function (TraineeService) {
+                    return TraineeService.findOne(trainee.id).then(function (data) {
+                        return data;
+                    });
+                }]
             }
         });
     };
@@ -64,9 +66,11 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             keyboard: false,
             size: 'lg',
             resolve: {
-                trainee: function () {
-                    return trainee;
-                }
+                trainee: ['TraineeService', function (TraineeService) {
+                    return TraineeService.findOne(trainee.id).then(function (data) {
+                        return data;
+                    });
+                }]
             }
         });
     };
@@ -138,9 +142,11 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
                 action: function () {
                     return 'update';
                 },
-                trainer: function () {
-                    return trainer;
-                }
+                trainer: ['TrainerService', function (TrainerService) {
+                    return TrainerService.findOne(trainer.id).then(function (data) {
+                        return data;
+                    });
+                }]
             }
         });
     };
@@ -156,9 +162,11 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             keyboard: false,
             size: 'lg',
             resolve: {
-                trainer: function () {
-                    return trainer;
-                }
+                trainer: ['TrainerService', function (TrainerService) {
+                    return TrainerService.findOne(trainer.id).then(function (data) {
+                        return data;
+                    });
+                }]
             }
         });
     };

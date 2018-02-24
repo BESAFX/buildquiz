@@ -17,5 +17,7 @@ public interface TraineeQuizService extends PagingAndSortingRepository<TraineeQu
     TraineeQuiz findByKeyAndTraineeAndIdIsNot(Integer code, Trainee trainee, Long id);
 
     List<TraineeQuiz> findByTraineeIdOrderByKeyAsc(Long traineeId);
+
+    List<TraineeQuiz> findByTraineePersonIdOrderByKeyAsc(Long personId);
 }
 

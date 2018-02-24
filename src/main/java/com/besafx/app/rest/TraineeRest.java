@@ -37,12 +37,12 @@ public class TraineeRest {
 
     public static final String FILTER_TABLE = "" +
             "**," +
-            "traineeQuizzes[**,quiz[id,code,content],-trainee]," +
+            "-traineeQuizzes," +
             "person[id,contact[id,name,email]]";
     public static final String FILTER_DETAILS = "" +
             "**," +
             "traineeQuizzes[**,quiz[id,code,content,category[id,code,name]],-trainee]," +
-            "person[id,contact[id,name,email]]";
+            "person[**,team[id,code,name],contact[id,name,email]]";
     public static final String FILTER_COMBO = "" +
             "**," +
             "-traineeQuizzes," +
@@ -99,7 +99,7 @@ public class TraineeRest {
                 .message(lang.equals("AR") ? "تم انشاء حساب المتدرب بنجاح" : "Create Trainee Account Successfully")
                 .type("success")
                 .build(), caller.getUserName());
-        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainee);
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainee);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -134,7 +134,7 @@ public class TraineeRest {
                     .message(lang.equals("AR") ? "تم تعديل بيانات حساب المتدرب بنجاح" : "Update Trainee Account Information Successfully")
                     .type("warning")
                     .build(), caller.getUserName());
-            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainee);
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainee);
         } else {
             return null;
         }
@@ -148,7 +148,7 @@ public class TraineeRest {
         Trainee trainee = traineeService.findOne(customerId);
         if (trainee != null) {
             trainee.setEnabled(true);
-            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), traineeService.save(trainee));
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), traineeService.save(trainee));
         } else {
             throw new CustomException("هذا المتدرب غير موجود");
         }
@@ -162,7 +162,7 @@ public class TraineeRest {
         Trainee trainee = traineeService.findOne(customerId);
         if (trainee != null) {
             trainee.setEnabled(false);
-            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), traineeService.save(trainee));
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), traineeService.save(trainee));
         } else {
             throw new CustomException("هذا المتدرب غير موجود");
         }

@@ -92,6 +92,7 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="question in collectionQuestions"
+                                    context-menu="rowMenuQuestion"
                                     ng-dblclick="ModalProvider.openQuestionDetailsModel(question)">
                                     <td>{{question.code}}</td>
                                     <td>

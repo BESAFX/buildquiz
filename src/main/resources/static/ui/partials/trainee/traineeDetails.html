@@ -146,15 +146,15 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-                            ng-show="!trainee.traineeQuizzes || trainee.traineeQuizzes.length ==0">
-                            <td colspan="5">
+                             ng-show="!trainee.traineeQuizzes || trainee.traineeQuizzes.length ==0">
+                            <div>
                                 <a href=""
                                    ng-if="contains(me.team.authorities, ['ROLE_TRAINEE_QUIZ_CREATE'])"
                                    ng-click="newTraineeQuiz(trainee)">
                                     <p ng-if="lang==='AR'">نموذج جديد...</p>
                                     <p ng-if="lang==='EN'">New Quiz...</p>
                                 </a>
-                            </td>
+                            </div>
                         </div>
 
                     </div>

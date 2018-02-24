@@ -33,6 +33,10 @@ public class QuizRest {
             "**," +
             "category[id,code,name]," +
             "questions[id]";
+    public static final String FILTER_DETAILS = "" +
+            "**," +
+            "category[id,code,name]," +
+            "questions[**,answers[**,-question],-quiz]";
     public static final String FILTER_QUIZ_COMBO = "" +
             "id," +
             "code," +
@@ -123,6 +127,6 @@ public class QuizRest {
     @RequestMapping(value = "findOne/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String findOne(@PathVariable Long id) {
-        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), quizService.findOne(id));
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), quizService.findOne(id));
     }
 }

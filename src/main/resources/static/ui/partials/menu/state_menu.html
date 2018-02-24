@@ -54,6 +54,19 @@
         </div>
 
         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="openStateStartQuiz()">
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/start-quiz.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">بدء الاختبارات</span>
+                    <span ng-if="lang==='EN'">Go To Quizzes</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
              ng-click="openStateTeam()"
              ng-if="contains(me.team.authorities, [
              'ROLE_TEAM_CREATE',

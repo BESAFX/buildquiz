@@ -63,7 +63,7 @@
                             ng-show="contains(me.team.authorities, ['ROLE_TRAINER_CREATE', 'ROLE_TRAINER_UPDATE', 'ROLE_TRAINER_DELETE'])"
                             ng-click="openStateTrainer()">
                             <span class="mdl-list__item-primary-content">
-                                <i class="material-icons mdl-list__item-icon">security</i>
+                                <i class="material-icons mdl-list__item-icon">work</i>
                                <span ng-if="lang==='AR'">سجل المدربين</span>
                                <span ng-if="lang==='EN'">Trainers List</span>
                             </span>
@@ -85,7 +85,7 @@
                             ng-show="contains(me.team.authorities, ['ROLE_TRAINEE_CREATE', 'ROLE_TRAINEE_UPDATE', 'ROLE_TRAINEE_DELETE'])"
                             ng-click="openStateTrainee()">
                             <span class="mdl-list__item-primary-content">
-                                <i class="material-icons mdl-list__item-icon">security</i>
+                                <i class="material-icons mdl-list__item-icon">school</i>
                                <span ng-if="lang==='AR'">سجل المتدربين</span>
                                <span ng-if="lang==='EN'">Trainers List</span>
                             </span>
@@ -367,6 +367,12 @@
         <div ng-if="toggleState==='trainer'" class="row" style="margin-top: 10px">
 
             <div ng-include="'ui/partials/menu/state_trainer.html'"></div>
+
+        </div>
+
+        <div ng-if="toggleState==='startQuiz'" class="row" style="margin-top: 10px">
+
+            <div ng-include="'ui/partials/menu/state_startQuiz.html'"></div>
 
         </div>
 

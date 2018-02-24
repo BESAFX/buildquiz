@@ -73,7 +73,6 @@ app.controller('traineeDetailsCtrl', [
             $uibModalInstance.dismiss('cancel');
         };
         $timeout(function () {
-            $scope.refreshTrainee();
             window.componentHandler.upgradeAllRegistered();
         }, 600);
 

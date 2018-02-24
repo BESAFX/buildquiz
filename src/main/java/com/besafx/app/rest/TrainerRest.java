@@ -34,10 +34,13 @@ public class TrainerRest {
 
     public static final String FILTER_TABLE = "" +
             "**," +
-            "person[**,-hiddenPassword,team[id]]";
-    public static final String FILTER_TRAINER_COMBO = "" +
+            "person[id,contact[id,name,email]]";
+    public static final String FILTER_DETAILS = "" +
             "**," +
-            "person[id,contact[id,nickname,name,email]]";
+            "person[**,team[id,code,name],contact[id,name,email]]";
+    public static final String FILTER_COMBO = "" +
+            "**," +
+            "person[id,contact[id,name,email]]";
 
     private final static Logger log = LoggerFactory.getLogger(TrainerRest.class);
 
@@ -89,7 +92,7 @@ public class TrainerRest {
                 .message(lang.equals("AR") ? "تم انشاء حساب المدرب بنجاح" : "Create Trainer Account Successfully")
                 .type("success")
                 .build(), caller.getUserName());
-        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainer);
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainer);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -125,7 +128,7 @@ public class TrainerRest {
                     .message(lang.equals("AR") ? "تم تعديل بيانات حساب المدرب بنجاح" : "Update Trainer Account Information Successfully")
                     .type("warning")
                     .build(), caller.getUserName());
-            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainer);
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainer);
         } else {
             return null;
         }
@@ -144,7 +147,7 @@ public class TrainerRest {
             trainer.getPerson().setTechnicalSupport(false);
             trainer.setPerson(personService.save(trainer.getPerson()));
             trainer = trainerService.save(trainer);
-            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainer);
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainer);
         } else {
             return null;
         }
@@ -163,7 +166,7 @@ public class TrainerRest {
             trainer.getPerson().setTechnicalSupport(false);
             trainer.setPerson(personService.save(trainer.getPerson()));
             trainer = trainerService.save(trainer);
-            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainer);
+            return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainer);
         } else {
             return null;
         }
@@ -201,12 +204,12 @@ public class TrainerRest {
     public String findAllCombo() {
         List<Trainer> list = Lists.newArrayList(trainerService.findAll());
         list.sort(Comparator.comparing(Trainer::getCode));
-        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TRAINER_COMBO), list);
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_COMBO), list);
     }
 
     @RequestMapping(value = "findOne/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String findOne(@PathVariable Long id) {
-        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), trainerService.findOne(id));
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_DETAILS), trainerService.findOne(id));
     }
 }

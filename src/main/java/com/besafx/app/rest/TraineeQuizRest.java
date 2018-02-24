@@ -121,4 +121,10 @@ public class TraineeQuizRest {
     public String findByTrainee(@PathVariable Long traineeId) {
         return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), traineeQuizService.findByTraineeIdOrderByKeyAsc(traineeId));
     }
+
+    @RequestMapping(value = "findByPerson/{personId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String findByPerson(@PathVariable Long personId) {
+        return SquigglyUtils.stringify(Squiggly.init(new ObjectMapper(), FILTER_TABLE), traineeQuizService.findByTraineePersonIdOrderByKeyAsc(personId));
+    }
 }

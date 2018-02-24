@@ -578,6 +578,11 @@ WebKit inertia scrolling is being added here for any present/future devices that
     right: auto !important;
 }
 
+.mdl-checkbox__focus-helper{
+    left: 0 !important;
+    right: auto !important;
+}
+
 /** CheckBox **/
 
 .mdl-tabs__panel {
@@ -715,4 +720,9 @@ WebKit inertia scrolling is being added here for any present/future devices that
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.div-center-content{
+    display: flex!important;
+    justify-content: center!important;
 }

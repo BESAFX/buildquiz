@@ -1,0 +1,113 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="panel panel-body">
+
+        <div class="row">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="" ng-click="openStateMenu()">الرئيسية</a>
+                </li>
+                <li>
+                    <span>الاختبارات</span>
+                </li>
+                <li>
+                    <span ng-show="showTraineeQuizzesList===false">[{{selectedTraineeQuiz.quiz.code}}] {{selectedTraineeQuiz.quiz.content}}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row" ng-show="showTraineeQuizzesList===false">
+            <button uib-tooltip="{{lang==='AR' ? 'تشغيل' : 'Refresh'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="refreshTrainee()"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">play_circle_filled</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'إعادة تشغيل' : 'Refresh'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="refreshTrainee()"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">repeat</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'توقف' : 'Edit Information'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="ModalProvider.openTraineeUpdateModel(trainee)"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">pause_circle_filled</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'إنهاء' : 'Add Quiz'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="newTraineeQuiz(trainee)"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">stop</i>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="showTraineeQuizzesList===true">
+
+    <div class="form-group row">
+
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 parent text-center"
+             ng-click="startQuiz(traineeQuiz)"
+             ng-repeat="traineeQuiz in myTraineeQuizzes">
+
+            <div class="card-image mdl-card" style="background-image: url('/ui/img/quiz.png')">
+                <div class="mdl-card__title mdl-card--expand"></div>
+            </div>
+            <div class="mdl-card__actions">
+                <a class="card-image__filename">
+                    <span ng-if="lang==='AR'">{{traineeQuiz.quiz.content}}</span>
+                    <span class="label label-info" ng-if="lang==='AR'">{{traineeQuiz.percentageInArabic}}</span>
+                    <span class="label label-info" ng-if="lang==='EN'">{{traineeQuiz.percentageInEnglish}}</span>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+             ng-show="!myTraineeQuizzes || myTraineeQuizzes.length ==0">
+            <div>
+                <h5 ng-if="lang==='AR'">لا توجد لديك نماذج اختبار!</h5>
+                <h5 ng-if="lang==='EN'">You Do not Have Any Quizzes!</h5>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row" ng-show="showTraineeQuizzesList===false">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="question in selectedTraineeQuiz.quiz.questions">
+
+        <div class="panel panel-body">
+
+            <h4>[{{question.code}}] {{question.content}}</h4>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="answer in question.answers">
+
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{question.id}}-{{answer.id}}">
+                    <input id="checkbox-{{question.id}}-{{answer.id}}"
+                           type="checkbox"
+                           ng-model="answer.userInput"
+                           class="mdl-checkbox__input">
+                    <span class="mdl-checkbox__label">
+                        <span ng-if="lang==='AR'">{{answer.content}}</span>
+                    </span>
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

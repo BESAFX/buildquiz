@@ -46,6 +46,35 @@ app.controller('quizDetailsCtrl', [
                 }
             })
         };
+        $scope.rowMenuQuestion = [
+            {
+                html: '<div class="drop-menu">انشاء سؤال جديد<span class="fa fa-pencil fa-lg"></span></div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_QUESTION_CREATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.newQuestion();
+                }
+            },
+            {
+                html: '<div class="drop-menu">تعديل بيانات السؤال<span class="fa fa-edit fa-lg"></span></div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_QUESTION_UPDATE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    ModalProvider.openQuestionUpdateModel($itemScope.question);
+                }
+            },
+            {
+                html: '<div class="drop-menu">حذف السؤال<span class="fa fa-trash fa-lg"></span></div>',
+                enabled: function () {
+                    return $rootScope.contains($rootScope.me.team.authorities, ['ROLE_QUESTION_DELETE']);
+                },
+                click: function ($itemScope, $event, value) {
+                    $scope.deleteQuestion($itemScope.question);
+                }
+            }
+        ];
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };

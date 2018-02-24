@@ -6,6 +6,7 @@ function menuCtrl($scope,
                   ModalProvider,
                   TrainerService,
                   TraineeService,
+                  TraineeQuizService,
                   CategoryService,
                   QuizService,
                   QuestionService,
@@ -30,15 +31,20 @@ function menuCtrl($scope,
             }
             case 'trainer': {
                 $scope.pageTitle = $rootScope.lang==='AR' ? 'المدربين' : 'Trainers';
-                $scope.MDLIcon = 'person_pin';
+                $scope.MDLIcon = 'work';
                 break;
             }
             case 'trainee': {
                 $scope.pageTitle = $rootScope.lang==='AR' ? 'المتدربين' : 'Trainees';
-                $scope.MDLIcon = 'account_circle';
+                $scope.MDLIcon = 'school';
                 break;
             }
             case 'quiz': {
+                $scope.pageTitle = $rootScope.lang==='AR' ? 'الاختبارات' : 'Quizzes';
+                $scope.MDLIcon = 'lightbulb_outline';
+                break;
+            }
+            case 'startQuiz': {
                 $scope.pageTitle = $rootScope.lang==='AR' ? 'الاختبارات' : 'Quizzes';
                 $scope.MDLIcon = 'lightbulb_outline';
                 break;
@@ -93,6 +99,15 @@ function menuCtrl($scope,
         $scope.toggleState = 'quiz';
         setTimeout(function () {
             $scope.fetchQuizData();
+        }, 500);
+    };
+    $scope.openStateStartQuiz = function () {
+        $scope.toggleState = 'startQuiz';
+        $scope.showTraineeQuizzesList = true;
+        setTimeout(function () {
+            TraineeQuizService.findByPerson($rootScope.me).then(function (data) {
+                $scope.myTraineeQuizzes = data;
+            });
         }, 500);
     };
     $scope.openStateTeam = function () {
@@ -538,6 +553,24 @@ function menuCtrl($scope,
 
     /**************************************************************
      *                                                            *
+     * StartQuiz                                                  *
+     *                                                            *
+     *************************************************************/
+    $scope.selectedTraineeQuiz = {};
+    $scope.showTraineeQuizzesList = true;
+    $scope.startQuiz = function (traineeQuiz) {
+        $scope.showTraineeQuizzesList = false;
+        $scope.selectedTraineeQuiz = traineeQuiz;
+        QuizService.findOne(traineeQuiz.quiz.id).then(function (data) {
+            return  $scope.selectedTraineeQuiz.quiz = data;
+        });
+        setTimeout(function () {
+            window.componentHandler.upgradeAllRegistered();
+        }, 300);
+    };
+
+    /**************************************************************
+     *                                                            *
      * Question                                                   *
      *                                                            *
      *************************************************************/
@@ -687,6 +720,7 @@ menuCtrl.$inject = [
     'ModalProvider',
     'TrainerService',
     'TraineeService',
+    'TraineeQuizService',
     'CategoryService',
     'QuizService',
     'AnswerService',

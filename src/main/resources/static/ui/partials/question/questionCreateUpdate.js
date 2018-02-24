@@ -10,8 +10,19 @@ app.controller('questionCreateUpdateCtrl', ['QuestionService', 'QuizService', '$
             $timeout(function () {
                 QuizService.findAllCombo().then(function (data) {
                     $scope.quizzes = data;
+                    $scope.refreshQuiz();
                 });
-            }, 1000);
+            }, 600);
+
+            $scope.refreshQuiz = function () {
+                if(question.quiz.id){
+                    angular.forEach($scope.quizzes, function (q) {
+                        if(question.quiz.id === q.id){
+                            return $scope.question.quiz = q;
+                        }
+                    });
+                }
+            };
 
             $scope.submit = function () {
                 switch ($scope.action) {
@@ -23,6 +34,7 @@ app.controller('questionCreateUpdateCtrl', ['QuestionService', 'QuizService', '$
                     case 'update' :
                         QuestionService.update($scope.question).then(function (data) {
                             $scope.question = data;
+                            $scope.refreshQuiz();
                         });
                         break;
                 }

@@ -16,6 +16,11 @@ app.factory("TraineeQuizService",
                     return response.data;
                 });
             },
+            findByPerson: function (person) {
+                return $http.get("/api/traineeQuiz/findByPerson/" + person.id).then(function (response) {
+                    return response.data;
+                });
+            },
             create: function (traineeQuiz) {
                 return $http.post("/api/traineeQuiz/create", traineeQuiz).then(function (response) {
                     return response.data;
