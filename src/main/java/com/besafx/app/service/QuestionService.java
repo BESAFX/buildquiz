@@ -2,7 +2,6 @@ package com.besafx.app.service;
 
 import com.besafx.app.entity.Question;
 import com.besafx.app.entity.Quiz;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
@@ -16,5 +15,6 @@ public interface QuestionService extends PagingAndSortingRepository<Question, Lo
     Question findTopByQuizOrderByCodeDesc(Quiz quiz);
     Question findByCodeAndQuizAndIdIsNot(Integer code, Quiz quiz, Long id);
     List<Question> findByQuizIdOrderByCodeAsc(Long id);
+    Long countByQuiz(Quiz quiz);
 }
 

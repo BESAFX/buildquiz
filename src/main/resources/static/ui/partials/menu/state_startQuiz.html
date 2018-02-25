@@ -20,28 +20,28 @@
             <button uib-tooltip="{{lang==='AR' ? 'تشغيل' : 'Refresh'}}"
                     tooltip-append-to-body="true"
                     type="button"
-                    ng-click="refreshTrainee()"
+                    ng-click="playTraineeQuiz()"
                     class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
                 <i class="material-icons">play_circle_filled</i>
             </button>
             <button uib-tooltip="{{lang==='AR' ? 'إعادة تشغيل' : 'Refresh'}}"
                     tooltip-append-to-body="true"
                     type="button"
-                    ng-click="refreshTrainee()"
+                    ng-click="repeatTraineeQuiz()"
                     class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
                 <i class="material-icons">repeat</i>
             </button>
             <button uib-tooltip="{{lang==='AR' ? 'توقف' : 'Edit Information'}}"
                     tooltip-append-to-body="true"
                     type="button"
-                    ng-click="ModalProvider.openTraineeUpdateModel(trainee)"
+                    ng-click="pauseTraineeQuiz(trainee)"
                     class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
                 <i class="material-icons">pause_circle_filled</i>
             </button>
             <button uib-tooltip="{{lang==='AR' ? 'إنهاء' : 'Add Quiz'}}"
                     tooltip-append-to-body="true"
                     type="button"
-                    ng-click="newTraineeQuiz(trainee)"
+                    ng-click="stopTraineeQuiz(trainee)"
                     class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
                 <i class="material-icons">stop</i>
             </button>
@@ -65,8 +65,7 @@
             <div class="mdl-card__actions">
                 <a class="card-image__filename">
                     <span ng-if="lang==='AR'">{{traineeQuiz.quiz.content}}</span>
-                    <span class="label label-info" ng-if="lang==='AR'">{{traineeQuiz.percentageInArabic}}</span>
-                    <span class="label label-info" ng-if="lang==='EN'">{{traineeQuiz.percentageInEnglish}}</span>
+                    <span class="label label-info">{{traineeQuiz.percentage}}</span>
                 </a>
             </div>
 
@@ -97,15 +96,63 @@
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-{{question.id}}-{{answer.id}}">
                     <input id="checkbox-{{question.id}}-{{answer.id}}"
                            type="checkbox"
+                           ng-disabled="selectedTraineeQuiz.isSubmitted"
                            ng-model="answer.userInput"
                            class="mdl-checkbox__input">
                     <span class="mdl-checkbox__label">
-                        <span ng-if="lang==='AR'">{{answer.content}}</span>
+                        <span>{{answer.code}} ) {{answer.content}}</span>
                     </span>
                 </label>
 
             </div>
 
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 box-success" ng-show="selectedTraineeQuiz.isSubmitted">
+                <h4>
+                    <span ng-if="lang==='AR'">الاجابة الصحيحة: </span>
+                    <span ng-if="lang==='EN'">Right Answer: </span>
+                    {{question.rightAnswers}}
+                </h4>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="showTraineeQuizzesList===false">
+
+    <div class="panel panel-body">
+
+        <div class="row">
+            <button uib-tooltip="{{lang==='AR' ? 'تشغيل' : 'Refresh'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="playTraineeQuiz()"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">play_circle_filled</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'إعادة تشغيل' : 'Refresh'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="repeatTraineeQuiz()"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">repeat</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'توقف' : 'Edit Information'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="pauseTraineeQuiz(trainee)"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">pause_circle_filled</i>
+            </button>
+            <button uib-tooltip="{{lang==='AR' ? 'إنهاء' : 'Add Quiz'}}"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="stopTraineeQuiz(trainee)"
+                    class="mdl-button mdl-js-button mdl-js-ripple-effect col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <i class="material-icons">stop</i>
+            </button>
         </div>
 
     </div>

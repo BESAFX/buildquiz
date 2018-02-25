@@ -1,0 +1,90 @@
+<form dir="rtl" name="form" ng-submit="submit()" novalidate="novalidate" focus-group="" focus-stack=""
+      focus-group-head="loop" focus-group-tail="loop">
+
+    <div class="modal-header mdl-color--primary mdl-navigation__link-active">
+        <a class="pull-left" href="" ng-click="cancel()">
+            <span class="fa fa-close fa-2x mdl-color-text--white"></span>
+        </a>
+        <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
+            <span class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon mdl-color-text--white">info</i>
+                <strong ng-if="lang==='AR'">نتيجة الاختبار / </strong>
+                <strong ng-if="lang==='EN'">Quiz Results / </strong>
+                {{traineeQuiz.quiz.content}}
+            </span>
+        </h3>
+    </div>
+
+    <div class="modal-body" id="modal-body">
+
+        <div class="row">
+
+            <h4 class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <span ng-if="lang==='AR'">المتدرب / </span>
+                <span ng-if="lang==='EN'">Trainee / </span>
+                {{traineeQuiz.trainee.person.contact.name}}
+            </h4>
+
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td width="50%">
+                                <span ng-if="lang==='AR'">عدد الأسئلة</span>
+                                <span ng-if="lang==='EN'">Questions Count</span>
+                            </td>
+                            <td width="50%">{{traineeQuiz.quiz.questions.length}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span ng-if="lang==='AR'">عدد الأسئلة المجابة</span>
+                                <span ng-if="lang==='EN'">Questions Answered Count</span>
+                            </td>
+                            <td>{{rightAnswersCount + wrongAnswersCount}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span ng-if="lang==='AR'">عدد الأسئلة الغير مجابة</span>
+                                <span ng-if="lang==='EN'">Questions Answered Count</span>
+                            </td>
+                            <td>{{noAnswersCount}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span ng-if="lang==='AR'">عدد الاجابات الصحيحة</span>
+                                <span ng-if="lang==='EN'">Correct Answers Count</span>
+                            </td>
+                            <td>{{rightAnswersCount}}</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span ng-if="lang==='AR'">عدد الاجابات الخاطئة</span>
+                                <span ng-if="lang==='EN'">Incorrect Answers Count</span>
+                            </td>
+                            <td>{{wrongAnswersCount}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <div class="row">
+            <button uib-tooltip="خروج"
+                    tooltip-append-to-body="true"
+                    type="button"
+                    ng-click="cancel()"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+                <i class="material-icons">power_settings_new</i>
+            </button>
+        </div>
+
+    </div>
+
+</form>

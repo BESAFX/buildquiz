@@ -36,6 +36,11 @@ app.factory("TraineeQuizService",
                 return $http.put("/api/traineeQuiz/update", traineeQuiz).then(function (response) {
                     return response.data;
                 });
+            },
+            getTraineeQuizPercentage: function (traineeQuiz) {
+                return $http.get("/api/traineeQuiz/getTraineeQuizPercentage/" + traineeQuiz.id).then(function (response) {
+                    return response.data;
+                });
             }
         };
     }]);

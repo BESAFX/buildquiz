@@ -293,6 +293,23 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
         });
     };
 
+    this.openQuizResultModel = function (traineeQuiz) {
+        return $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/ui/partials/quiz/quizResult.html',
+            controller: 'quizResultCtrl',
+            backdrop: 'static',
+            keyboard: false,
+            resolve: {
+                traineeQuiz: function () {
+                    return traineeQuiz;
+                }
+            }
+        });
+    };
+
     /**************************************************************
      *                                                            *
      * Question Model                                             *

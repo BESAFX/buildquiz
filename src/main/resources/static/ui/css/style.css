@@ -721,3 +721,7 @@ WebKit inertia scrolling is being added here for any present/future devices that
     display: flex!important;
     justify-content: center!important;
 }
+
+.mdl-progress{
+    width: auto!important;
+}

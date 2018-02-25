@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +59,7 @@ public class PersonRest {
     @RequestMapping(value = "setGUILang/{lang}", method = RequestMethod.GET)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_PROFILE_UPDATE')")
+    @Transactional
     public void setGUILang(@PathVariable(value = "lang") String lang) {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         Options options = JSONConverter.toObject(caller.getOptions(), Options.class);
@@ -69,6 +71,7 @@ public class PersonRest {
     @RequestMapping(value = "setDateType/{type}", method = RequestMethod.GET)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_PROFILE_UPDATE')")
+    @Transactional
     public void setDateType(@PathVariable(value = "type") String type) {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         Options options = JSONConverter.toObject(caller.getOptions(), Options.class);
@@ -80,6 +83,7 @@ public class PersonRest {
     @RequestMapping(value = "setStyle/{style}", method = RequestMethod.GET)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_PROFILE_UPDATE')")
+    @Transactional
     public void setStyle(@PathVariable(value = "style") String style) {
         Person caller = ((PersonAwareUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
         Options options = JSONConverter.toObject(caller.getOptions(), Options.class);
@@ -91,6 +95,7 @@ public class PersonRest {
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_PROFILE_UPDATE')")
+    @Transactional
     public String update(@RequestBody Person person, Principal principal) {
         Person object = personService.findOne(person.getId());
         if (object != null) {
@@ -114,6 +119,7 @@ public class PersonRest {
 
     @RequestMapping(value = "/uploadPersonPhoto", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody
+    @Transactional
     public String uploadPersonPhoto(@RequestParam("file") MultipartFile file, Principal principal) throws Exception {
         Person person = personService.findByUserName(principal.getName());
         String fileName = new BigInteger(130, random).toString(32) + "." + FilenameUtils.getExtension(file.getOriginalFilename());

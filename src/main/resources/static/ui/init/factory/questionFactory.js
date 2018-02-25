@@ -28,6 +28,16 @@ app.factory("QuestionService",
                 return $http.put("/api/question/update", question).then(function (response) {
                     return response.data;
                 });
+            },
+            submitResult: function (question, traineeQuiz) {
+                return $http.put("/api/question/submitResult/" + traineeQuiz.id, question).then(function (response) {
+                    return response.data;
+                });
+            },
+            getQuestionResult: function (question, traineeQuiz) {
+                return $http.get("/api/question/getQuestionResult/" + question.id + "/" + traineeQuiz.id).then(function (response) {
+                    return response.data;
+                });
             }
         };
     }]);

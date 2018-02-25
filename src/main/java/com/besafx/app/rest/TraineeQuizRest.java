@@ -1,9 +1,10 @@
 package com.besafx.app.rest;
 
+import com.besafx.app.Async.TransactionalService;
 import com.besafx.app.auditing.PersonAwareUserDetails;
-import com.besafx.app.entity.TraineeQuiz;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Trainee;
+import com.besafx.app.entity.TraineeQuiz;
 import com.besafx.app.service.TraineeQuizService;
 import com.besafx.app.service.TraineeService;
 import com.besafx.app.util.JSONConverter;
@@ -33,14 +34,17 @@ public class TraineeQuizRest {
 
     public static final String FILTER_TABLE = "" +
             "**," +
-            "trainee[id]," +
-            "quiz[id,code,content]";
+            "trainee[id,person[id,-team,contact[id,name,email]]]," +
+            "quiz[id,code,content,questions[id,result]]";
 
     @Autowired
     private TraineeQuizService traineeQuizService;
 
     @Autowired
     private TraineeService traineeService;
+
+    @Autowired
+    private TransactionalService transactionalService;
 
     @Autowired
     private NotificationService notificationService;
@@ -101,6 +105,14 @@ public class TraineeQuizRest {
                     .type("error")
                     .build(), caller.getUserName());
         }
+    }
+
+    @RequestMapping(value = "getTraineeQuizPercentage/{traineeQuizId}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    @Transactional
+    public String getTraineeQuizPercentage(@PathVariable(value = "traineeQuizId") Long traineeQuizId) {
+        TraineeQuiz traineeQuiz = traineeQuizService.findOne(traineeQuizId);
+        return transactionalService.getTraineeQuizPercentage(traineeQuiz).toString();
     }
 
     @RequestMapping(value = "findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

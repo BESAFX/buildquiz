@@ -5,7 +5,6 @@ import com.besafx.app.entity.Answer;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Question;
 import com.besafx.app.service.AnswerService;
-import com.besafx.app.service.PersonService;
 import com.besafx.app.service.QuestionService;
 import com.besafx.app.util.JSONConverter;
 import com.besafx.app.util.Options;
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bohnman.squiggly.Squiggly;
 import com.github.bohnman.squiggly.util.SquigglyUtils;
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.ListIterator;
 
 @RestController
 @RequestMapping(value = "/api/answer/")

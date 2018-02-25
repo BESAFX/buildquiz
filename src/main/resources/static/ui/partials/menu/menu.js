@@ -11,6 +11,7 @@ function menuCtrl($scope,
                   QuizService,
                   QuestionService,
                   AnswerService,
+                  ResultService,
                   TeamService,
                   PersonService) {
 
@@ -107,6 +108,12 @@ function menuCtrl($scope,
         setTimeout(function () {
             TraineeQuizService.findByPerson($rootScope.me).then(function (data) {
                 $scope.myTraineeQuizzes = data;
+                angular.forEach(data, function (traineeQuiz) {
+                    TraineeQuizService.getTraineeQuizPercentage(traineeQuiz).then(function (data) {
+                        console.info(data);
+                        return traineeQuiz.percentage = data;
+                    });
+                });
             });
         }, 500);
     };
@@ -568,6 +575,15 @@ function menuCtrl($scope,
             window.componentHandler.upgradeAllRegistered();
         }, 300);
     };
+    $scope.stopTraineeQuiz = function () {
+        ModalProvider.openConfirmModel('الاختبارات', 'stop', 'هل تود فعلاً إنهاء الاختبار وحساب النتيجة؟')
+            .result.then(function (response) {
+            if(response){
+                $scope.selectedTraineeQuiz.isSubmitted = true;
+                ModalProvider.openQuizResultModel($scope.selectedTraineeQuiz);
+            }
+        })
+    };
 
     /**************************************************************
      *                                                            *
@@ -723,8 +739,9 @@ menuCtrl.$inject = [
     'TraineeQuizService',
     'CategoryService',
     'QuizService',
-    'AnswerService',
     'QuestionService',
+    'AnswerService',
+    'ResultService',
     'TeamService',
     'PersonService'
 ];

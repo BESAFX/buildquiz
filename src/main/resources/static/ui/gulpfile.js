@@ -117,6 +117,7 @@ gulp.task('scripts', function () {
         './init/factory/personFactory.js',
         './init/factory/questionFactory.js',
         './init/factory/quizFactory.js',
+        './init/factory/resultFactory.js',
         './init/factory/teamFactory.js',
         './init/factory/traineeFactory.js',
         './init/factory/traineeQuizFactory.js',
@@ -155,6 +156,7 @@ gulp.task('scripts', function () {
 
         './partials/quiz/quizCreateUpdate.js',
         './partials/quiz/quizDetails.js',
+        './partials/quiz/quizResult.js',
 
         './partials/question/questionCreateUpdate.js',
         './partials/question/questionDetails.js',

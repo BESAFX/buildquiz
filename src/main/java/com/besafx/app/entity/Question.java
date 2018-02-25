@@ -5,16 +5,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
+@Component
 public class Question implements Serializable {
+
+    private final static Logger log = LoggerFactory.getLogger(Question.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -48,12 +55,24 @@ public class Question implements Serializable {
     @OneToMany(mappedBy = "question")
     @OrderBy(value = "code")
     private List<Answer> answers = new ArrayList<>();
-    
+
 
     @JsonCreator
     public static Question Create(String jsonString) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Question quiz = mapper.readValue(jsonString, Question.class);
         return quiz;
+    }
+
+    public String getRightAnswers() {
+        try {
+            return String.join(", ", this.answers.stream()
+                    .filter(Answer::getIsAnswer)
+                    .map(answer -> answer.getCode().toString())
+                    .collect(Collectors.toList())
+            );
+        } catch (Exception ex) {
+            return "";
+        }
     }
 }

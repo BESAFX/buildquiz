@@ -4,7 +4,6 @@ import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Team;
-import com.besafx.app.service.PersonService;
 import com.besafx.app.service.TeamService;
 import com.besafx.app.util.JSONConverter;
 import com.besafx.app.util.Options;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -39,6 +39,7 @@ public class TeamRest {
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEAM_CREATE')")
+    @Transactional
     public String create(@RequestBody Team team) {
         if (teamService.findByAuthorities(team.getAuthorities()) != null) {
             throw new CustomException("هذة المجموعة موجودة بالفعل.");
@@ -64,6 +65,7 @@ public class TeamRest {
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEAM_UPDATE')")
+    @Transactional
     public String update(@RequestBody Team team) {
         if (teamService.findByCodeAndIdIsNot(team.getCode(), team.getId()) != null) {
             throw new CustomException("هذا الكود مستخدم سابقاً، فضلاً قم بتغير الكود.");
@@ -88,6 +90,7 @@ public class TeamRest {
     @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TEAM_DELETE')")
+    @Transactional
     public void delete(@PathVariable Long id) {
         Team team = teamService.findOne(id);
         if (team != null) {

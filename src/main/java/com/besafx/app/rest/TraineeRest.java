@@ -4,7 +4,6 @@ import com.besafx.app.auditing.PersonAwareUserDetails;
 import com.besafx.app.config.CustomException;
 import com.besafx.app.entity.Person;
 import com.besafx.app.entity.Trainee;
-import com.besafx.app.entity.Trainer;
 import com.besafx.app.search.TraineeSearch;
 import com.besafx.app.service.ContactService;
 import com.besafx.app.service.PersonService;
@@ -17,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bohnman.squiggly.Squiggly;
 import com.github.bohnman.squiggly.util.SquigglyUtils;
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +69,7 @@ public class TraineeRest {
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TRAINEE_CREATE')")
+    @Transactional
     public String create(@RequestBody Trainee trainee) {
         if (personService.findByUserName(trainee.getPerson().getUserName()) != null) {
             throw new CustomException("هذا البريد الإلكتروني غير متاح ، فضلاً ادخل بريد آخر غير مستخدم");
@@ -105,6 +104,7 @@ public class TraineeRest {
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TRAINEE_UPDATE')")
+    @Transactional
     public String update(@RequestBody Trainee trainee) {
         if (traineeService.findByCodeAndIdIsNot(trainee.getCode(), trainee.getId()) != null) {
             throw new CustomException("هذا الكود مستخدم سابقاً، فضلاً قم بتغير الكود.");
@@ -171,6 +171,7 @@ public class TraineeRest {
     @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_TRAINEE_DELETE')")
+    @Transactional
     public void delete(@PathVariable Long id) {
         Trainee trainee = traineeService.findOne(id);
         if (trainee != null) {
