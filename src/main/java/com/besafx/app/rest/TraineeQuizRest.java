@@ -112,7 +112,7 @@ public class TraineeQuizRest {
     @Transactional
     public String getTraineeQuizPercentage(@PathVariable(value = "traineeQuizId") Long traineeQuizId) {
         TraineeQuiz traineeQuiz = traineeQuizService.findOne(traineeQuizId);
-        return transactionalService.getTraineeQuizPercentage(traineeQuiz).toString();
+        return transactionalService.getTraineeQuizPercentage(traineeQuiz).toString().concat(" %");
     }
 
     @RequestMapping(value = "findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

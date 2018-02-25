@@ -58,6 +58,26 @@
                        ng-model="quiz.content">
             </div>
 
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-init="quiz.countDownInMinute=15">
+                <label for="countDownInMinute" class="control-label">
+                    <span ng-if="lang==='AR'">مدة الاختبار</span>
+                    <span ng-if="lang==='EN'">Quiz Time</span>
+                </label>
+                <div dir="ltr" class="input-group" id="countDownInMinute">
+                        <span class="input-group-addon">
+                            <span ng-if="lang==='AR'">دقيقة</span>
+                            <span ng-if="lang==='EN'">Minute</span>
+                        </span>
+                    <input dir="rtl"
+                           type="number"
+                           min="1"
+                           required="required"
+                           disable-validation-message=""
+                           class="form-control"
+                           ng-model="quiz.countDownInMinute">
+                </div>
+            </div>
+
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <label for="address" class="control-label">
                     <span ng-if="lang==='AR'">ملاحظات</span>

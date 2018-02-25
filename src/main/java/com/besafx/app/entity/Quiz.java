@@ -33,6 +33,9 @@ public class Quiz implements Serializable {
 
     private Integer code;
 
+    @Column(columnDefinition = "int default 1")
+    private Integer countDownInMinute;
+
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String content;

@@ -1,10 +1,12 @@
 app.controller('quizResultCtrl', [
     'QuestionService',
+    'TraineeQuizService',
     '$uibModalInstance',
     '$scope',
     'filterFilter',
     'traineeQuiz',
     function (QuestionService,
+              TraineeQuizService,
               $uibModalInstance,
               $scope,
               filterFilter,
@@ -14,6 +16,7 @@ app.controller('quizResultCtrl', [
         $scope.rightAnswersCount = 0;
         $scope.wrongAnswersCount = 0;
         $scope.noAnswersCount = 0;
+        $scope.finalGrade = '0 %';
 
         angular.forEach($scope.traineeQuiz.quiz.questions, function (question) {
             var questionToSave = JSON.parse(JSON.stringify(question));
@@ -38,6 +41,10 @@ app.controller('quizResultCtrl', [
                     }
                 })
             });
+        });
+
+        TraineeQuizService.getTraineeQuizPercentage($scope.traineeQuiz).then(function (grade) {
+            $scope.finalGrade = grade;
         });
 
         $scope.cancel = function () {

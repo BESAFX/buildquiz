@@ -575,6 +575,15 @@ function menuCtrl($scope,
             window.componentHandler.upgradeAllRegistered();
         }, 300);
     };
+    $scope.playTraineeQuiz = function () {
+        $scope.$broadcast('timer-start');
+    };
+    $scope.repeatTraineeQuiz = function () {
+        $scope.$broadcast('timer-reset');
+    };
+    $scope.pauseTraineeQuiz = function () {
+        $scope.$broadcast('timer-stop');
+    };
     $scope.stopTraineeQuiz = function () {
         ModalProvider.openConfirmModel('الاختبارات', 'stop', 'هل تود فعلاً إنهاء الاختبار وحساب النتيجة؟')
             .result.then(function (response) {
@@ -583,6 +592,11 @@ function menuCtrl($scope,
                 ModalProvider.openQuizResultModel($scope.selectedTraineeQuiz);
             }
         })
+    };
+    $scope.onTimerFinish = function (countdown) {
+        console.info(countdown);
+        $scope.selectedTraineeQuiz.isSubmitted = true;
+        ModalProvider.openQuizResultModel($scope.selectedTraineeQuiz);
     };
 
     /**************************************************************

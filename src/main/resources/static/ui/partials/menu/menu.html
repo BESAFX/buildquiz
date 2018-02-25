@@ -302,6 +302,14 @@
 
             <div class="mdl-layout-spacer"></div>
 
+            <div ng-show="showTraineeQuizzesList===false">
+                <timer interval="1000" countdown="selectedTraineeQuiz.quiz.countDownInMinute * 60"
+                       autostart="false"
+                       finish-callback="onTimerFinish(countdown)">
+                    <h4 class="mdl-color-text--white">{{minutes}}:{{seconds}}</h4>
+                </timer>
+            </div>
+
             <button id="menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon mdl-icon-margin">
                 <i class="material-icons">more_vert</i>
             </button>

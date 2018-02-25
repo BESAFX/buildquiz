@@ -38,6 +38,9 @@ public class TraineeQuiz implements Serializable {
 
     private Long key;
 
+    @Column(columnDefinition = "int default 1")
+    private Integer solvedTimeInSeconds;
+
     @ManyToOne
     @JoinColumn(name = "trainee")
     private Trainee trainee;
