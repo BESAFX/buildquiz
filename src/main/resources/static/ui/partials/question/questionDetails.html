@@ -15,7 +15,8 @@
     <div class="modal-body" id="modal-body">
 
         <div class="form-group row">
-            <h4>{{question.content}}</h4>
+            <h4 ng-if="question.contentType==='HTML'" ng-bind-html="question.content"></h4>
+            <h4 ng-if="question.contentType==='TEXT'">{{question.content}}</h4>
         </div>
 
         <div class="form-group row">
@@ -66,7 +67,10 @@
                                 <tr ng-repeat="answer in collectionAnswers"
                                     context-menu="rowMenuAnswer">
                                     <td class="fit">{{answer.code}}</td>
-                                    <td>{{answer.content}}</td>
+                                    <td>
+                                        <span ng-if="answer.contentType==='HTML'" ng-bind-html="answer.content"></span>
+                                        <span ng-if="answer.contentType==='TEXT'">{{answer.content}}</span>
+                                    </td>
                                     <td class="fit">
                                         <div class="div-center-content">
                                             <i ng-if="answer.isAnswer" class="material-icons mdl-color-text--primary text-center">check_box</i>

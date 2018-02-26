@@ -1,8 +1,8 @@
 package com.besafx.app.entity;
 
+import com.besafx.app.entity.entity.ContentType;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -10,7 +10,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @Entity
@@ -38,6 +37,9 @@ public class Answer implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    private ContentType contentType;
 
     @JoinColumn(name = "question")
     @ManyToOne

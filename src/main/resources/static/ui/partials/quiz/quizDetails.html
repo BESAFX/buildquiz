@@ -106,7 +106,8 @@
                                     <td>
                                         <a href=""
                                            ng-click="ModalProvider.openQuestionDetailsModel(question)">
-                                            {{question.content}}
+                                            <span ng-if="question.contentType==='HTML'" ng-bind-html="question.content"></span>
+                                            <span ng-if="question.contentType==='TEXT'">{{question.content}}</span>
                                         </a>
                                     </td>
                                     <td>{{question.description}}</td>

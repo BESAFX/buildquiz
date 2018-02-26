@@ -561,7 +561,6 @@ WebKit inertia scrolling is being added here for any present/future devices that
     white-space: nowrap !important;
 }
 
-
 /** CheckBox **/
 .mdl-checkbox.is-upgraded {
     padding-left: 24px !important;
@@ -583,7 +582,6 @@ WebKit inertia scrolling is being added here for any present/future devices that
     left: 0 !important;
     right: auto !important;
 }
-
 /** CheckBox **/
 
 .mdl-tabs__panel {
@@ -730,4 +728,9 @@ WebKit inertia scrolling is being added here for any present/future devices that
 
 .mdl-progress{
     width: auto!important;
+}
+
+.question-font{
+    font-family: "AdvertisingExtraBold" !important;
+    font-weight: unset!important;
 }

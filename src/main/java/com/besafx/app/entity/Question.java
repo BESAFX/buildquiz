@@ -1,5 +1,6 @@
 package com.besafx.app.entity;
 
+import com.besafx.app.entity.entity.ContentType;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -43,6 +44,9 @@ public class Question implements Serializable {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    private ContentType contentType;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
