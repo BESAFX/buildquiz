@@ -64,6 +64,14 @@
                                     <td>{{quiz.content}}</td>
                                 </tr>
                                 <tr>
+                                    <td>مدة الاختبار</td>
+                                    <td>
+                                        {{quiz.countDownInMinute}}
+                                        <span ng-if="lang==='AR'">دقيقة</span>
+                                        <span ng-if="lang==='EN'">Minute</span>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>ملاحظات</td>
                                     <td>{{quiz.note}}</td>
                                 </tr>

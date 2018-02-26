@@ -31,6 +31,11 @@ app.controller('traineeDetailsCtrl', [
         $scope.refreshQuizzes = function () {
             TraineeQuizService.findByTrainee($scope.trainee).then(function (data) {
                 $scope.trainee.traineeQuizzes = data;
+                angular.forEach(data, function (tq) {
+                    TraineeQuizService.getTraineeQuizPercentage(tq).then(function (percentage) {
+                        return tq.percentage = percentage;
+                    });
+                });
             });
         };
         $scope.newTraineeQuiz = function () {
