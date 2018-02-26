@@ -207,6 +207,7 @@ input[type=checkbox] {
 
 .mdl-menu {
     width: 310px !important;
+    overflow: auto!important;
 }
 
 .mdl-list__item--two-line .mdl-list__item-primary-content {
