@@ -71,6 +71,26 @@
                             </td>
                             <td>{{finalGrade}}</td>
                         </tr>
+                        <tr>
+                            <td>
+                                <span ng-if="lang==='AR'">مدة الاختبار</span>
+                                <span ng-if="lang==='EN'">Quiz Duration</span>
+                            </td>
+                            <td>
+                                {{traineeQuiz.quiz.countDownInMinute}}
+                                <span ng-if="lang==='AR'">دقيقة</span>
+                                <span ng-if="lang==='EN'">Minute</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span ng-if="lang==='AR'">الوقت المنقضي</span>
+                                <span ng-if="lang==='EN'">Elapsed Time</span>
+                            </td>
+                            <td>
+                                {{traineeQuiz.timeElapsedMinutes}} : {{traineeQuiz.timeElapsedSeconds}}
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

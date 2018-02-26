@@ -47,6 +47,8 @@ app.controller('quizResultCtrl', [
             $scope.finalGrade = grade;
         });
 
+        TraineeQuizService.setSolvedTimeInSeconds($scope.traineeQuiz, $scope.traineeQuiz.solvedTimeInSeconds);
+
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };

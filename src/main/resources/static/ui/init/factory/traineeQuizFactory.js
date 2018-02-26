@@ -32,8 +32,9 @@ app.factory("TraineeQuizService",
             removeByTrainee: function (id) {
                 return $http.delete("/api/traineeQuiz/deleteByTrainee/" + id);
             },
-            update: function (traineeQuiz) {
-                return $http.put("/api/traineeQuiz/update", traineeQuiz).then(function (response) {
+            setSolvedTimeInSeconds: function (traineeQuiz, solvedTimeInSeconds) {
+                return $http.get("/api/traineeQuiz/setSolvedTimeInSeconds/" + traineeQuiz.id + "/" + solvedTimeInSeconds)
+                    .then(function (response) {
                     return response.data;
                 });
             },

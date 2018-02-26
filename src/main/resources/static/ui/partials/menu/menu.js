@@ -26,52 +26,52 @@ function menuCtrl($scope,
     $scope.$watch('toggleState', function (newValue, oldValue) {
         switch (newValue) {
             case 'menu': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'القائمة' : 'Menu';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'القائمة' : 'Menu';
                 $scope.MDLIcon = 'widgets';
                 break;
             }
             case 'trainer': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'المدربين' : 'Trainers';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'المدربين' : 'Trainers';
                 $scope.MDLIcon = 'work';
                 break;
             }
             case 'trainee': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'المتدربين' : 'Trainees';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'المتدربين' : 'Trainees';
                 $scope.MDLIcon = 'school';
                 break;
             }
             case 'quiz': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'الاختبارات' : 'Quizzes';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'الاختبارات' : 'Quizzes';
                 $scope.MDLIcon = 'lightbulb_outline';
                 break;
             }
             case 'startQuiz': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'الاختبارات' : 'Quizzes';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'الاختبارات' : 'Quizzes';
                 $scope.MDLIcon = 'lightbulb_outline';
                 break;
             }
             case 'team': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'الصلاحيات' : 'Teams';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'الصلاحيات' : 'Teams';
                 $scope.MDLIcon = 'security';
                 break;
             }
             case 'profile': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'الملف الشخصي' : 'Profile';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'الملف الشخصي' : 'Profile';
                 $scope.MDLIcon = 'account_circle';
                 break;
             }
             case 'help': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'المساعدة' : 'Help';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'المساعدة' : 'Help';
                 $scope.MDLIcon = 'help';
                 break;
             }
             case 'about': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'عن البرنامج' : 'About';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'عن البرنامج' : 'About';
                 $scope.MDLIcon = 'info';
                 break;
             }
             case 'report': {
-                $scope.pageTitle = $rootScope.lang==='AR' ? 'التقارير' : 'Reports';
+                $scope.pageTitle = $rootScope.lang === 'AR' ? 'التقارير' : 'Reports';
                 $scope.MDLIcon = 'print';
                 break;
             }
@@ -110,7 +110,6 @@ function menuCtrl($scope,
                 $scope.myTraineeQuizzes = data;
                 angular.forEach(data, function (traineeQuiz) {
                     TraineeQuizService.getTraineeQuizPercentage(traineeQuiz).then(function (data) {
-                        console.info(data);
                         return traineeQuiz.percentage = data;
                     });
                 });
@@ -197,7 +196,8 @@ function menuCtrl($scope,
 
             $scope.filterTrainer();
 
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.deleteTrainer = function (trainer) {
         $rootScope.showConfirmNotify("حذف البيانات", "هل تود حذف المدرب وكل ما يتعلق به من حسابات فعلاً؟", "error", "fa-trash", function () {
@@ -210,7 +210,8 @@ function menuCtrl($scope,
     $scope.newTrainer = function () {
         ModalProvider.openTrainerCreateModel().result.then(function (data) {
             return $scope.trainers.splice(0, 0, data);
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.enableTrainer = function (trainer) {
         TrainerService.enable(trainer).then(function () {
@@ -344,7 +345,8 @@ function menuCtrl($scope,
 
             $scope.filterTrainee();
 
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.deleteTrainee = function (trainee) {
         $rootScope.showConfirmNotify("حذف البيانات", "هل تود حذف المتدرب وكل ما يتعلق به من حسابات فعلاً؟", "error", "fa-trash", function () {
@@ -357,7 +359,8 @@ function menuCtrl($scope,
     $scope.newTrainee = function () {
         ModalProvider.openTraineeCreateModel().result.then(function (data) {
             return $scope.trainees.splice(0, 0, data);
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.enableTrainee = function (trainee) {
         TraineeService.enable(trainee).then(function () {
@@ -452,7 +455,8 @@ function menuCtrl($scope,
     $scope.newCategory = function () {
         ModalProvider.openCategoryCreateModel().result.then(function (data) {
             $scope.categories.splice(0, 0, data);
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.rowMenuCategory = [
         {
@@ -499,7 +503,7 @@ function menuCtrl($scope,
         QuizService.findOne(quiz.id).then(function (data) {
             data.isSelected = true;
             angular.forEach($scope.quizzes, function (q) {
-                if(q.id === quiz.id){
+                if (q.id === quiz.id) {
                     var index = $scope.quizzes.indexOf(q);
                     return $scope.quizzes[index] = data;
                 }
@@ -517,7 +521,8 @@ function menuCtrl($scope,
     $scope.newQuiz = function () {
         ModalProvider.openQuizCreateModel().result.then(function (data) {
             $scope.quizzes.splice(0, 0, data);
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.rowMenuQuiz = [
         {
@@ -569,35 +574,51 @@ function menuCtrl($scope,
         $scope.showTraineeQuizzesList = false;
         $scope.selectedTraineeQuiz = traineeQuiz;
         QuizService.findOne(traineeQuiz.quiz.id).then(function (data) {
-            return  $scope.selectedTraineeQuiz.quiz = data;
+            return $scope.selectedTraineeQuiz.quiz = data;
         });
         setTimeout(function () {
             window.componentHandler.upgradeAllRegistered();
-        }, 300);
-    };
-    $scope.playTraineeQuiz = function () {
-        $scope.$broadcast('timer-start');
-    };
-    $scope.repeatTraineeQuiz = function () {
-        $scope.$broadcast('timer-reset');
-    };
-    $scope.pauseTraineeQuiz = function () {
-        $scope.$broadcast('timer-stop');
+        }, 500);
     };
     $scope.stopTraineeQuiz = function () {
         ModalProvider.openConfirmModel('الاختبارات', 'stop', 'هل تود فعلاً إنهاء الاختبار وحساب النتيجة؟')
             .result.then(function (response) {
-            if(response){
+            if (response) {
+                $scope.pauseTraineeQuiz();
                 $scope.selectedTraineeQuiz.isSubmitted = true;
+                $scope.selectedTraineeQuiz.timeElapsedSeconds = $scope.timeElapsedSeconds;
+                $scope.selectedTraineeQuiz.timeElapsedMinutes = $scope.timeElapsedMinutes;
+                $scope.selectedTraineeQuiz.solvedTimeInSeconds = $scope.timeElapsed;
                 ModalProvider.openQuizResultModel($scope.selectedTraineeQuiz);
             }
         })
     };
-    $scope.onTimerFinish = function (countdown) {
-        console.info(countdown);
+    $scope.onTimerFinish = function () {
         $scope.selectedTraineeQuiz.isSubmitted = true;
         ModalProvider.openQuizResultModel($scope.selectedTraineeQuiz);
     };
+
+    /**************************************************************
+     *                                                            *
+     * Timer                                                      *
+     *                                                            *
+     *************************************************************/
+    $scope.timerRunning = false;
+    $scope.playTraineeQuiz = function () {
+        $scope.$broadcast('timer-start');
+        $scope.timerRunning = true;
+    };
+    $scope.pauseTraineeQuiz = function () {
+        $scope.$broadcast('timer-stop');
+        $scope.timerRunning = false;
+    };
+    $scope.$on('timer-stopped', function (event, data) {
+        $scope.timeElapsedSeconds = data.seconds;
+        $scope.timeElapsedMinutes = data.minutes;
+        $scope.timeElapsed = $scope.timeElapsedMinutes * 60 + $scope.timeElapsedSeconds;
+        $scope.timeElapsedString = $scope.timeElapsedMinutes * 60 + $scope.timeElapsedSeconds + ' Seconds';
+        console.log('Test Finished In = ', $scope.timeElapsedString);
+    });
 
     /**************************************************************
      *                                                            *
@@ -614,7 +635,7 @@ function menuCtrl($scope,
         QuestionService.findOne(question.id).then(function (data) {
             data.isSelected = true;
             angular.forEach($scope.questions, function (q) {
-                if(q.id === question.id){
+                if (q.id === question.id) {
                     var index = $scope.questions.indexOf(q);
                     return $scope.questions[index] = data;
                 }
@@ -632,7 +653,8 @@ function menuCtrl($scope,
     $scope.newQuestion = function () {
         ModalProvider.openQuestionCreateModel().result.then(function (data) {
             $scope.questions.splice(0, 0, data);
-        }, function () {});
+        }, function () {
+        });
     };
 
     /**************************************************************
@@ -658,12 +680,14 @@ function menuCtrl($scope,
     $scope.newAnswer = function (question) {
         ModalProvider.openAnswerCreateModel(question).result.then(function (data) {
             return question.answers.splice(0, 0, data);
-        }, function () {});
+        }, function () {
+        });
     };
     $scope.updateAnswer = function (answer) {
         ModalProvider.openAnswerUpdateModel(answer).result.then(function (data) {
             $scope.refreshQuestion(data.question);
-        }, function () {});
+        }, function () {
+        });
     };
 
     /**************************************************************************************************************
@@ -741,6 +765,7 @@ function menuCtrl($scope,
     };
 
 }
+
 menuCtrl.$inject = [
     '$scope',
     '$rootScope',

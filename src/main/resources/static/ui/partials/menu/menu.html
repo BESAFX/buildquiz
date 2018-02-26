@@ -305,7 +305,7 @@
             <div ng-show="showTraineeQuizzesList===false">
                 <timer interval="1000" countdown="selectedTraineeQuiz.quiz.countDownInMinute * 60"
                        autostart="false"
-                       finish-callback="onTimerFinish(countdown)">
+                       finish-callback="onTimerFinish()">
                     <h4 class="mdl-color-text--white">{{minutes}}:{{seconds}}</h4>
                 </timer>
             </div>

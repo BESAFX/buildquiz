@@ -115,6 +115,16 @@ public class TraineeQuizRest {
         return transactionalService.getTraineeQuizPercentage(traineeQuiz).toString().concat(" %");
     }
 
+    @RequestMapping(value = "setSolvedTimeInSeconds/{traineeQuizId}/{solvedTimeInSeconds}", method = RequestMethod.GET)
+    @ResponseBody
+    @Transactional
+    public void setSolvedTimeInSeconds(@PathVariable(value = "traineeQuizId") Long traineeQuizId,
+                         @PathVariable(value = "solvedTimeInSeconds") Integer solvedTimeInSeconds) {
+        TraineeQuiz traineeQuiz = traineeQuizService.findOne(traineeQuizId);
+        traineeQuiz.setSolvedTimeInSeconds(solvedTimeInSeconds);
+        traineeQuizService.save(traineeQuiz);
+    }
+
     @RequestMapping(value = "findAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String findAll() {
