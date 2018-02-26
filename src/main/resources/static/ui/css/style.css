@@ -726,3 +726,8 @@ WebKit inertia scrolling is being added here for any present/future devices that
 .mdl-progress {
     width: auto !important;
 }
+
+.question-font{
+    font-family: "AdvertisingExtraBold" !important;
+    font-weight: unset!important;
+}

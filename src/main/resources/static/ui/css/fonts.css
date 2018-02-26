@@ -30,3 +30,15 @@
     unicode-range: U+0-10FFFF;
 }
 
+@font-face {
+    font-family: 'PT Simple Bold Ruled';
+    src: url(font/PT_Simple_Bold_Ruled.ttf) format('woff');
+    unicode-range: U+0-10FFFF;
+}
+
+@font-face {
+    font-family: 'AdvertisingExtraBold';
+    src: url(font/AdvertisingExtraBold.ttf) format('woff');
+    unicode-range: U+0-10FFFF;
+}
+
