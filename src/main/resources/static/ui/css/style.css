@@ -746,8 +746,24 @@ WebKit inertia scrolling is being added here for any present/future devices that
     text-align: right !important;
 }
 
+@media screen {
+    #printSection {
+        display: none;
+    }
+}
 @media print {
     html * {
         font-family: 'AdvertisingExtraBold'!important;
+    }
+    body * {
+        visibility:hidden;
+    }
+    #printSection, #printSection * {
+        visibility:visible;
+    }
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
     }
 }

@@ -1,134 +1,120 @@
-<form dir="rtl" name="form" ng-submit="submit()" novalidate="novalidate" focus-group="" focus-stack=""
-      focus-group-head="loop" focus-group-tail="loop">
-
-    <div class="modal-header mdl-color--primary mdl-navigation__link-active">
-        <a class="pull-left" href="" ng-click="cancel()">
-            <span class="fa fa-close fa-2x mdl-color-text--white"></span>
-        </a>
-        <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
+<div class="modal-header mdl-color--primary mdl-navigation__link-active">
+    <a class="pull-left" href="" ng-click="cancel()">
+        <span class="fa fa-close fa-2x mdl-color-text--white"></span>
+    </a>
+    <h3 class="panel-title mdl-list__item pull-right mdl-color-text--white">
             <span class="mdl-list__item-primary-content">
                 <i class="material-icons mdl-list__item-icon mdl-color-text--white">info</i>
                 <strong ng-if="lang==='AR'">نتيجة الاختبار / </strong>
                 <strong ng-if="lang==='EN'">Quiz Results / </strong>
                 {{traineeQuiz.quiz.content}}
             </span>
-        </h3>
-    </div>
+    </h3>
+</div>
 
-    <div class="modal-body" id="modal-body">
+<div class="modal-body" id="modal-body">
 
-        <script>
-            function printDiv() {
-                var printContents = document.getElementById('summery').innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = printContents;
-                window.print();
-                document.body.innerHTML = originalContents;
-            }
-        </script>
+    <div id="printThisElement" class="row">
 
-        <div id="summery" class="row">
+        <h4 class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <span ng-if="lang==='AR'">المتدرب / </span>
+            <span ng-if="lang==='EN'">Trainee / </span>
+            {{traineeQuiz.trainee.person.contact.name}}
+        </h4>
 
-            <h4 class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <span ng-if="lang==='AR'">المتدرب / </span>
-                <span ng-if="lang==='EN'">Trainee / </span>
-                {{traineeQuiz.trainee.person.contact.name}}
-            </h4>
-
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tbody>
-                        <tr>
-                            <td width="50%">
-                                <span ng-if="lang==='AR'">المجموع للأسئلة</span>
-                                <span ng-if="lang==='EN'">Questions Count</span>
-                            </td>
-                            <td width="50%">{{traineeQuiz.quiz.questions.length}}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">المجموع للأسئلة المجابة</span>
-                                <span ng-if="lang==='EN'">Questions Answered Count</span>
-                            </td>
-                            <td>{{rightAnswersCount + wrongAnswersCount}}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">المجموع للأسئلة الغير مجابة</span>
-                                <span ng-if="lang==='EN'">Questions Answered Count</span>
-                            </td>
-                            <td>{{noAnswersCount}}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">الاجابات الصحيحة</span>
-                                <span ng-if="lang==='EN'">Correct Answers Count</span>
-                            </td>
-                            <td>{{rightAnswersCount}}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">الاجابات الخاطئة</span>
-                                <span ng-if="lang==='EN'">Incorrect Answers Count</span>
-                            </td>
-                            <td>{{wrongAnswersCount}}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">الدرجة النهائية</span>
-                                <span ng-if="lang==='EN'">Final Grade</span>
-                            </td>
-                            <td>{{finalGrade}}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">المدة للاختبار</span>
-                                <span ng-if="lang==='EN'">Quiz Duration</span>
-                            </td>
-                            <td>
-                                {{traineeQuiz.quiz.countDownInMinute}}
-                                <span ng-if="lang==='AR'">دقيقة</span>
-                                <span ng-if="lang==='EN'">Minute</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span ng-if="lang==='AR'">الوقت المنقضي</span>
-                                <span ng-if="lang==='EN'">Elapsed Time</span>
-                            </td>
-                            <td>
-                                {{traineeQuiz.timeElapsedSeconds}} : {{traineeQuiz.timeElapsedMinutes}}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td width="50%">
+                            <span ng-if="lang==='AR'">عدد الأسئلة</span>
+                            <span ng-if="lang==='EN'">Questions Count</span>
+                        </td>
+                        <td width="50%">{{traineeQuiz.quiz.questions.length}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">عدد الأسئلة المجابة</span>
+                            <span ng-if="lang==='EN'">Questions Answered Count</span>
+                        </td>
+                        <td>{{rightAnswersCount + wrongAnswersCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">عدد الأسئلة الغير مجابة</span>
+                            <span ng-if="lang==='EN'">Questions Answered Count</span>
+                        </td>
+                        <td>{{noAnswersCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">عدد الاجابات الصحيحة</span>
+                            <span ng-if="lang==='EN'">Correct Answers Count</span>
+                        </td>
+                        <td>{{rightAnswersCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">عدد الاجابات الخاطئة</span>
+                            <span ng-if="lang==='EN'">Incorrect Answers Count</span>
+                        </td>
+                        <td>{{wrongAnswersCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">الدرجة النهائية</span>
+                            <span ng-if="lang==='EN'">Final Grade</span>
+                        </td>
+                        <td>{{finalGrade}}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">مدة للاختبار</span>
+                            <span ng-if="lang==='EN'">Quiz Duration</span>
+                        </td>
+                        <td>
+                            {{traineeQuiz.quiz.countDownInMinute}}
+                            <span ng-if="lang==='AR'">دقيقة</span>
+                            <span ng-if="lang==='EN'">Minute</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span ng-if="lang==='AR'">الوقت المنقضي</span>
+                            <span ng-if="lang==='EN'">Elapsed Time</span>
+                        </td>
+                        <td>
+                            {{traineeQuiz.timeElapsedSeconds}} : {{traineeQuiz.timeElapsedMinutes}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-
         </div>
 
     </div>
 
-    <div class="modal-footer">
+</div>
 
-        <div class="row">
-            <button uib-tooltip="خروج"
-                    tooltip-append-to-body="true"
-                    type="button"
-                    ng-click="cancel()"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
-                <i class="material-icons">power_settings_new</i>
-            </button>
-            <button uib-tooltip="طباعة"
-                    tooltip-append-to-body="true"
-                    type="button"
-                    onclick="printDiv()"
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
-                <i class="material-icons">print</i>
-            </button>
-        </div>
+<div class="modal-footer">
 
+    <div class="row">
+        <button uib-tooltip="خروج"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-click="cancel()"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+            <i class="material-icons">power_settings_new</i>
+        </button>
+        <button uib-tooltip="طباعة"
+                tooltip-append-to-body="true"
+                type="button"
+                ng-print
+                print-element-id="printThisElement"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect pull-left">
+            <i class="material-icons">print</i>
+        </button>
     </div>
 
-</form>
+</div>

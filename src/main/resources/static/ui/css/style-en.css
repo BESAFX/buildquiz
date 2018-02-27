@@ -734,3 +734,40 @@ WebKit inertia scrolling is being added here for any present/future devices that
     font-family: "AdvertisingExtraBold" !important;
     font-weight: unset!important;
 }
+
+.answer-font{
+    font-family: "Arial Black" !important;
+    font-weight: unset!important;
+}
+
+.force-dir-ltr{
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.force-dir-rtl{
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+@media screen {
+    #printSection {
+        display: none;
+    }
+}
+@media print {
+    html * {
+        font-family: 'AdvertisingExtraBold'!important;
+    }
+    body * {
+        visibility:hidden;
+    }
+    #printSection, #printSection * {
+        visibility:visible;
+    }
+    #printSection {
+        position:absolute;
+        left:0;
+        top:0;
+    }
+}
