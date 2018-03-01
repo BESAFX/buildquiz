@@ -324,6 +324,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             controller: 'questionCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
+            size: 'lg',
             resolve: {
                 title: function () {
                     return $rootScope.lang === 'AR' ? 'انشاء سؤال جديد' : 'New Question';
@@ -349,6 +350,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             controller: 'questionCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
+            size: 'lg',
             resolve: {
                 title: function () {
                     return $rootScope.lang === 'AR' ? 'تعديل بيانات السؤال' : 'Update Question';
@@ -395,6 +397,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             controller: 'answerCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
+            size: 'lg',
             resolve: {
                 title: function () {
                     return $rootScope.lang === 'AR' ? 'انشاء اجابة جديد' : 'New Answer';
@@ -421,6 +424,7 @@ app.service('ModalProvider', ['$uibModal', '$log', '$rootScope', function ($uibM
             controller: 'answerCreateUpdateCtrl',
             backdrop: 'static',
             keyboard: false,
+            size: 'lg',
             resolve: {
                 title: function () {
                     return $rootScope.lang === 'AR' ? 'تعديل بيانات الاجابة' : 'Update Answer';

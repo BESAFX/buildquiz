@@ -26,7 +26,8 @@ var app = angular.module('Application',
         'ui.sortable',
         'timer',
         'chart.js',
-        'angular.filter'
+        'angular.filter',
+        'textAngular'
     ]);
 
 app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$cssProvider', 'ChartJsProvider', '$httpProvider',

@@ -32,6 +32,7 @@ gulp.task('css', function () {
         './bootstrap-select/css/nya-bs-select.css',
         './css/font-awesome-animation.css',
         './kdate/css/jquery.calendars.picker.css',
+        './node_modules/textangular/dist/textAngular.css',
         './css/select.css',
         './chosen/chosen.css'
     ])
@@ -107,6 +108,11 @@ gulp.task('scripts', function () {
         './js/jquery.noty.packaged.js',
         './angular-chart/Chart.js',
         './angular-chart/angular-chart.js',
+
+        './node_modules/textangular/dist/textAngular-rangy.min.js',
+        './node_modules/textangular/dist/textAngular-sanitize.js',
+        './node_modules/textangular/dist/textAngular.js',
+        './node_modules/textangular/dist/textAngularSetup.js',
 
         //--> init/config
         './init/config/config.js',

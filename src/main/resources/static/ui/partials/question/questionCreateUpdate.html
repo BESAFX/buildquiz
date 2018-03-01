@@ -57,7 +57,7 @@
                 </select>
             </div>
 
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="question.contentType==='TEXT'">
                 <label for="content" class="control-label">
                     <span ng-if="lang==='AR'">السؤال</span>
                     <span ng-if="lang==='EN'">Question</span>
@@ -71,6 +71,10 @@
                           disable-validation-message=""
                           ng-model="question.content">
                 </textarea>
+            </div>
+
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="question.contentType==='HTML'">
+                <text-angular ng-model="question.content"></text-angular>
             </div>
 
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
